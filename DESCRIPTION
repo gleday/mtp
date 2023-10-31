@@ -1,0 +1,21 @@
+Package: mtp
+Type: Package
+Title: mutliple testing procedures
+Version: 0.0.1
+Author: Gwenaël G.R. Leday [aut, cre]
+Authors@R: c(
+    person(
+      given = "Gwenaël G.R.", family = "Leday",
+      email = "gwenael.leday@wur.nl", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-3753-4060")
+    )
+  )
+Maintainer: Gwenaël G.R. Leday <gwenael.leday@wur.nl>
+Description: Functions to control type I errors when
+  conducting multiple statistical tests using different
+  error criteria (FWER, FRX) and methods (step-down, step-up).
+License: GPL-3
+Imports: assertthat, dplyr, purrr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Encoding: UTF-8

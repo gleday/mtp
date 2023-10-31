@@ -1,0 +1,94 @@
+#' FWER control using Hochberg (step-up)
+#'
+#' @inheritParams fwer_bon
+#'
+#' @description
+#' Control \eqn{\text{FWER(k)}} using generalization of
+#' Hochberg's step-up procedure
+#'
+#' @details
+#' The generalized Holm procedure
+#' (Sarkar, 2008; Remark 4.2)
+#' consists in using the decision procedure
+#' described in [mtp-package] using:
+#'
+#' * the adjustment factors:
+#' \eqn{\qquad\quad
+#'  \displaystyle{
+#'   a_j = \frac{d - \max\left(j - k, 0\right)}{k},
+#'   \ \text{for}\ j=1, \ldots, d.
+#'  }
+#' }
+#'
+#' * the adjusted P-values:
+#' \eqn{\qquad\quad
+#' \displaystyle{
+#'   \begin{cases}
+#'   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
+#'   \widetilde{p}_{j} = \min\left( a_j p_{j},
+#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+#'   \end{cases}
+#'  }
+#'  }
+#'
+#' * the adjusted critical values:
+#' \eqn{\qquad
+#' \displaystyle{
+#'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
+#'   \ \text{for}\ j=1, \ldots, d.
+#' } }
+#'
+#' The generalized Hochberg procedure guarantees
+#' that \eqn{\text{FWER(k)} \leq \alpha} under some
+#' assumptions on the dependence of P-values.
+#'
+#' The generalized Hochberg procedure uses the same
+#' adjustment factors as the generalized Holm procedure
+#' (see [fwer_holm()]) but yields a different
+#' set of rejected hypotheses.
+#'
+#' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
+#' @importFrom "dplyr" "between"
+#' @importFrom "purrr" "map_lgl"
+#'
+#' @return
+#' A [numeric] vector of:
+#' * adjusted P-values when `.return = "p"`,
+#' * adjustment factors when `.return = "a"`,
+#' * adjusted critical values when `alpha` is provided.
+#'
+#' @family FWER
+#'
+#' @references
+#' Hochberg, Y. (1988). A sharper Bonferroni procedure for
+#' multiple tests of significance. Biometrika, 75(4), 800-802.\cr
+#' Sarkar, S. K. (2008). Generalizing Simes’ test and
+#' Hochberg’s stepup procedure
+#' The Annals of Statistics, 36(1), 337-363.
+#'
+#' @export
+fwer_hoch <- function(p_value, k = 1, .return = "p", alpha = NULL) {
+
+  # check arguments
+  .check_p_value()
+  .check_k()
+  .check_return()
+
+  # get adjustment factors
+  d <- length(p_value)
+  j <- d:1L
+  o <- order(p_value, decreasing = TRUE)
+  ro <- order(o)
+  a <- (d - pmax(0, j - k)) / k
+
+  # output
+  p <- pmin(cummin(a * p_value[o]), 1)[ro]
+  if (!is.null(alpha)) {
+    return( (alpha * p_value) / p )
+  } else {
+    if (.return == "a") {
+      return(p / p_value)
+    }
+  }
+  p
+}
