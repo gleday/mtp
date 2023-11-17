@@ -1,4 +1,4 @@
-#' FWER control using (single-step) adaptive Bonferroni
+#' FWER control using adaptive Bonferroni (single-step)
 #'
 #' @inheritParams fwer_bon
 #' @inheritParams d0

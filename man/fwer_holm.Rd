@@ -47,9 +47,9 @@ described in \link{mtp-package} with:
 \eqn{\qquad\quad
 \displaystyle{
   \begin{cases}
-  \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
-  \widetilde{p}_{j} = \max\left( a_j p_{j},
-  \widetilde{p}_{j - 1}\right), \ \text{for}\ j=2, \ldots, d
+  \widetilde{p}_{(1)} = \min\left( a_1 p_{(1)}, 1\right),\\
+  \widetilde{p}_{(j)} = \max\left( a_j p_{(j)},
+  \widetilde{p}_{(j - 1)}\right), \ \text{for}\ j=2, \ldots, d
   \end{cases}
  }
  }

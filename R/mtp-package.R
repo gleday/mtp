@@ -7,11 +7,15 @@
 #' (incorrect rejections) when
 #' conducting multiple statistical tests.
 #'
-#' @section Setting:
+#' @section Setting and notation:
 #'
 #' Testing of \eqn{d} null hypotheses
 #' \eqn{H_{1}, \ldots, H_{d}} with
-#' observed P-values \eqn{p_{1}, \ldots, p_{d}}.
+#' observed P-values \eqn{p_{1}, \ldots, p_{d}}.\cr
+#' The ordered P-values are denoted by
+#' \eqn{p_{(1)} \leq \ldots \leq p_{(d)}} and
+#' their corresponding hypotheses by
+#' \eqn{H_{(1)}, \ldots, H_{(d)}}.
 #'
 #' @section Type I error criteria:
 #'
@@ -34,6 +38,17 @@
 #' exceeds a predefined proportion \eqn{0 \leq \text{c} \leq 1}:
 #' \deqn{\text{FRX(c)} = \text{Pr}(\text{V}/\text{R} > \text{c}).}
 #' See functions [frx_holm()] and [frx_hoch()].
+#'
+#' * the \strong{per family error rate} (PFER),
+#' defined as the expected number of false rejections:
+#' \deqn{\text{PFER} = \text{E}(\text{V}).}
+#' See functions [pfer_bon()] and [pfer_abon()].
+#'
+#' * the \strong{false rejection rate} (FRR),
+#' defined as the expected proportion of false rejections
+#' among all rejections:
+#' \deqn{\text{FRR} = \text{E}(\text{V}/\text{R}).}
+#' See functions [frr_bh()] and [frr_abh()].
 #'
 #' Note that the term "discovery" commonly
 #' adopted in literature is replaced by the
@@ -76,8 +91,8 @@
 #' equal to the critical value \eqn{\alpha}, i.e.:
 #' \deqn{
 #'  \displaystyle{
-#'   \text{reject}\ \ H_{j} \qquad
-#'   \text{if} \qquad \widetilde{p}_{j} \leq \alpha,
+#'   \text{reject}\ \ H_{(j)} \qquad
+#'   \text{if} \qquad \widetilde{p}_{(j)} \leq \alpha,
 #'   \qquad\text{for}\ j=1, \ldots, d.
 #'  }
 #' }
@@ -87,8 +102,8 @@
 #' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{d}}:
 #' \deqn{
 #'  \displaystyle{
-#'  \text{reject}\ \ H_{j} \qquad
-#'   \text{if} \qquad p_{j} \leq \widetilde{\alpha}_{j},
+#'  \text{reject}\ \ H_{(j)} \qquad
+#'   \text{if} \qquad p_{(j)} \leq \widetilde{\alpha}_{j},
 #'   \qquad\text{for}\ j=1, \ldots, d.
 #'  }
 #' }
