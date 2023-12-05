@@ -18,7 +18,7 @@
 #'  \displaystyle{
 #'   a = \frac{\widehat{d}_0}{k}
 #'  },
-#' }
+#' }\cr
 #' where \eqn{\widehat{d}_0} is Storey's estimator of the
 #' number \eqn{d_0} of true null hypotheses (see [d0()]).
 #'

@@ -81,7 +81,7 @@ frx_hoch <- function(p_value, c = 0, .return = "p", alpha = NULL) {
   d <- length(p_value)
   j <- d:1L
   cj <- floor(c * j)
-  o <- order(p_value, decreasing = TRUE)
+  o <- order(p_value)[j]
   ro <- order(o)
   a <- (d - j + cj + 1) / (cj + 1)
 

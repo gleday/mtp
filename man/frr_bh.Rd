@@ -12,7 +12,7 @@ frr_bh(p_value, .return = "p", alpha = NULL)
 \item{.return}{\link{character} scalar. Return adjusted P-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
+\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRR}}
 level (between 0 and 1). Overrides \code{.return} and
 return adjusted critical values.}
 }

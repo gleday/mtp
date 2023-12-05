@@ -44,7 +44,7 @@ described in \link{mtp-package} with:
  \displaystyle{
   a = \frac{\widehat{d}_0}{k}
  },
-}
+}\cr
 where \eqn{\widehat{d}_0} is Storey's estimator of the
 number \eqn{d_0} of true null hypotheses (see \code{\link[=d0]{d0()}}).
 \item the adjusted P-values:

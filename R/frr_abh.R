@@ -1,6 +1,6 @@
 #' FRR control using adaptive Benjamini-Hochberg (step-up)
 #'
-#' @inheritParams fwer_bon
+#' @inheritParams frr_bh
 #' @inheritParams d0
 #'
 #' @description
@@ -20,7 +20,7 @@
 #'   a_j = \frac{\hat{d}_0}{j},
 #'   \ \text{for}\ j=1, \ldots, d.
 #'  },
-#' }
+#' }\cr
 #' where \eqn{\widehat{d}_0} is Storey's estimator of the
 #' number \eqn{d_0} of true null hypotheses (see [d0()]).
 #'

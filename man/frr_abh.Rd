@@ -15,7 +15,7 @@ more value(s) for the tuning parameter.}
 \item{.return}{\link{character} scalar. Return adjusted P-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
+\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRR}}
 level (between 0 and 1). Overrides \code{.return} and
 return adjusted critical values.}
 }
@@ -44,7 +44,7 @@ described in \link{mtp-package} using:
   a_j = \frac{\hat{d}_0}{j},
   \ \text{for}\ j=1, \ldots, d.
  },
-}
+}\cr
 where \eqn{\widehat{d}_0} is Storey's estimator of the
 number \eqn{d_0} of true null hypotheses (see \code{\link[=d0]{d0()}}).
 \item the adjusted P-values:

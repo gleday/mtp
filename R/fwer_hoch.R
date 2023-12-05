@@ -77,7 +77,7 @@ fwer_hoch <- function(p_value, k = 1, .return = "p", alpha = NULL) {
   # get adjustment factors
   d <- length(p_value)
   j <- d:1L
-  o <- order(p_value, decreasing = TRUE)
+  o <- order(p_value)[j]
   ro <- order(o)
   a <- (d - pmax(0, j - k)) / k
 

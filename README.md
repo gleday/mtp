@@ -2,12 +2,13 @@
 The mtp package provides functions to apply
 various forms of statistical control on the
 occurrence of Type I errors (incorrect rejections)
-when conducting multiple statistical tests.
+when conducting multiple statistical hypothesis tests.
 
-The package offers to use different error criteria,
-such as the (generalized) familywise error rate and
-the false rejection exceedance, as well as different
-methods, e.g. step-down or step-up procedures.
+mtp offers to use different error criteria
+(familywise error rate, false rejection exceedance, ...)
+to assess the likelihood of committing Type I errors,
+as well as different methods (step-down, step-up)
+to adjust the significance level of each test.
 
 ## Installation
 
@@ -23,10 +24,10 @@ install_github("gleday/mtp")
 library(mtp)
 ```
 
-## Introduction
-When performing a test, the probability of
-committing an error when rejecting the
-null hypothesis, is bounded by \eqn{\alpha},
+## Why using multiple testing procedures?
+When performing a single statistical test,
+the probability of committing an error when rejecting
+the null hypothesis, is bounded by \eqn{\alpha},
 which is conventionally set at \eqn{5\%}.
 
 When testing multiple null hypotheses,

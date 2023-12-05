@@ -1,6 +1,9 @@
 #' FRR control using Benjamini-Hochberg (step-up)
 #'
 #' @inheritParams fwer_bon
+#' @param alpha [numeric] scalar. Target \eqn{\text{FRR}}
+#' level (between 0 and 1). Overrides `.return` and
+#' return adjusted critical values.
 #'
 #' @description
 #' Control \eqn{\text{FRR}} using Benjamini-Hochberg's
