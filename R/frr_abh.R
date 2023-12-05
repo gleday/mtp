@@ -71,23 +71,23 @@
 #'
 #' @export
 frr_abh <- function(p_value, lambda = 0.5, .return = "p", alpha = NULL) {
-  
+
   # check arguments
   .check_p_value()
   .check_lambda()
   .check_return()
-  
+
   # get adjustment factors
   d <- length(p_value)
   j <- d:1L
   o <- order(p_value, decreasing = TRUE)
   ro <- order(o)
   a <- d0(p_value = p_value, lambda = lambda) / j
-  
+
   # output
   p <- pmin(cummin(a * p_value[o]), 1)[ro]
   if (!is.null(alpha)) {
-    return( (alpha * p_value) / p )
+    return((alpha * p_value) / p)
   } else {
     if (.return == "a") {
       return(p / p_value)

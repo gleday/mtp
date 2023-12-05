@@ -64,7 +64,9 @@
 #' Statistics-Simulation and Computation, 46(10), 8140-8151.
 #'
 #' @export
-fwer_abon <- function(p_value, k = 1, lambda = 0.5, .return = "p", alpha = NULL) {
+fwer_abon <- function(
+    p_value, k = 1, lambda = 0.5, .return = "p", alpha = NULL
+    ) {
 
   # check arguments
   .check_p_value()

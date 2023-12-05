@@ -88,7 +88,7 @@ frx_hoch <- function(p_value, c = 0, .return = "p", alpha = NULL) {
   # output
   p <- pmin(1, cummin(a * p_value[o]))[ro]
   if (!is.null(alpha)) {
-    return( (alpha * p_value) / p )
+    return((alpha * p_value) / p)
   } else {
     if (.return == "a") {
       return(p / p_value)

@@ -80,7 +80,7 @@ fwer_holm <- function(p_value, k = 1, .return = "p", alpha = NULL) {
   # output
   p <- pmin(cummax(a * p_value[o]), 1)[ro]
   if (!is.null(alpha)) {
-    return( (alpha * p_value) / p )
+    return((alpha * p_value) / p)
   } else {
     if (.return == "a") {
       return(p / p_value)

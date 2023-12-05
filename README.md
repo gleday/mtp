@@ -27,27 +27,24 @@ library(mtp)
 ## Why using multiple testing procedures?
 When performing a single statistical test,
 the probability of committing an error when rejecting
-the null hypothesis, is bounded by \eqn{\alpha},
-which is conventionally set at \eqn{5\%}.
+the null hypothesis, is bounded by $\alpha$,
+which is conventionally set at 5\%.
 
-When testing multiple null hypotheses,
+When performing multiple statistical tests,
 the risk of committing errors increases with
 the number of tests and is practically guaranteed
 when the number of tests is large.
 
-Statistical control is exerted by capping
-the probability of producing Type I errors,
-(in the sense of a criterion).
+Multiple testing procedures allow to exert
+statistical control on the occurrence of
+Type I errors by capping the likelihood of
+committing errors (in the sense of a criterion).
+This is achieved by adjusting the significance
+level of each test (possibly using different methods).
 
-Multiple testing procedures make possible this
-control by adjusting the significance level of
-each test (possibly using different methods).
-
-Overall, criteria and methods for multiple
-testing allow to:
-- improve the balance between the overall amount of
-incorrectly and correctly rejected hypotheses (i.e.
-between overall Type I errors and statistical power).
-- provide statistical guarantees on the set of
-rejected null hypotheses, e.g. that it is unlikely
-to exceed 5 errors.
+The benefits of multiple testing procedures include:
+- improve balance between incorrectly and
+correctly rejected null hypotheses (i.e. between
+Type I errors and statistical power).
+- provide statistical guarantees regarding the extent of
+incorrectly rejected null hypotheses

@@ -65,22 +65,22 @@
 #'
 #' @export
 frr_bh <- function(p_value, .return = "p", alpha = NULL) {
-  
+
   # check arguments
   .check_p_value()
   .check_return()
-  
+
   # get adjustment factors
   d <- length(p_value)
   j <- d:1L
   o <- order(p_value, decreasing = TRUE)
   ro <- order(o)
   a <- d / j
-  
+
   # output
   p <- pmin(cummin(a * p_value[o]), 1)[ro]
   if (!is.null(alpha)) {
-    return( (alpha * p_value) / p )
+    return((alpha * p_value) / p)
   } else {
     if (.return == "a") {
       return(p / p_value)
