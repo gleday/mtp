@@ -156,8 +156,14 @@
 #' multiple tests of significance. Biometrika, 75(4), 800-802.\cr
 #' Lehmann, E. L., & Romano, J. P. (2005). Generalizations of
 #' the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.\cr
+#' Gordon, A., Glazko, G., Qiu, X., & Yakovlev, A. (2007).
+#' Control of the mean number of false discoveries,
+#' Bonferroni and stability of multiple testing.
+#' The Annals of Applied Statistics, 1(1), 179-190.\cr
 #' Sarkar, S. K. (2008). Generalizing Simes’ test and
 #' Hochberg’s stepup procedure. The Annals of Statistics, 36(1), 337-363.\cr
+#' Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
+#' controlling the false discovery proportion.\cr
 #' Wang, L. (2017). Adaptive procedure for generalized
 #' familywise error rate control. Communications in
 #' Statistics-Simulation and Computation, 46(10), 8140-8151.

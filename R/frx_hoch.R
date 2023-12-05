@@ -4,11 +4,12 @@
 #'
 #' @description
 #' Control \eqn{\text{FRX(c)}} using modification of
-#' Hochberg's step-up procedure (Sarkar, 2008)
+#' Hochberg's step-up procedure (Sarkar, 2008;
+#' Guo et al., 2014)
 #'
 #' @details
 #' The modified Holm procedure
-#' (Sarkar, 2008; Remark 4.2)
+#' (Guo et al., 2014; Theorem 3.1)
 #' consists in using the decision procedure
 #' described in [mtp-package] using:
 #'
@@ -67,7 +68,9 @@
 #' @references
 #' Sarkar, S. K. (2008). Generalizing Simes’ test and
 #' Hochberg’s stepup procedure.
-#' The Annals of Statistics, 36(1), 337-363.
+#' The Annals of Statistics, 36(1), 337-363.\cr
+#' Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
+#' controlling the false discovery proportion.
 #'
 #' @export
 frx_hoch <- function(p_value, c = 0, .return = "p", alpha = NULL) {
