@@ -14,7 +14,7 @@
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a = d
+#'   a = m
 #'  }.
 #' }
 #'
@@ -22,7 +22,7 @@
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'

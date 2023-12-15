@@ -43,8 +43,8 @@ This is achieved by adjusting the significance
 level of each test (possibly using different methods).
 
 The benefits of multiple testing procedures include:
-- improve balance between incorrectly and
+- improved balance between incorrectly and
 correctly rejected null hypotheses (i.e. between
 Type I errors and statistical power).
-- provide statistical guarantees regarding the extent of
+- offer statistical guarantees regarding the extent of
 incorrectly rejected null hypotheses

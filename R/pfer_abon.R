@@ -1,7 +1,7 @@
 #' PFER control using adaptive Bonferroni (single-step)
 #'
 #' @inheritParams fwer_bon
-#' @inheritParams d0
+#' @inheritParams m0
 #'
 #' @description
 #' Control \eqn{\text{PFER}} using adaptive Bonferroni's
@@ -15,17 +15,17 @@
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a = \widehat{d}_0
+#'   a = \widehat{m}_0
 #'  },
 #' }
-#' where \eqn{\widehat{d}_0} is Storey's estimator of the
-#' number \eqn{d_0} of true null hypotheses (see [d0()]).
+#' where \eqn{\widehat{m}_0} is Storey's estimator of the
+#' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
 #' * the adjusted P-values:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'

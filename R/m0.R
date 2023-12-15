@@ -10,23 +10,20 @@
 #' the number and proportion of true null hypotheses.
 #'
 #' @details
-#' Consider the testing of \eqn{d} null hypotheses with
-#' observed P-values \eqn{p_{1}, \ldots, p_{d}}.\cr\cr
-#'
 #' Storey's estimators of the
 #' number and proportion of true null
 #' hypotheses are respectively:
 #' \deqn{\displaystyle{
-#' \hat{d}_0 = \min\left(
-#'  \frac{\sum_{j=1}^{d}{1_{p_j > \lambda} + 1}}
-#'  {(1-\lambda)}, d
+#' \hat{m}_0 = \min\left(
+#'  \frac{\sum_{j=1}^{m}{1_{p_j > \lambda} + 1}}
+#'  {(1-\lambda)}, m
 #' \right)
 #' }}
 #'
 #' and
 #'
 #' \deqn{\displaystyle{
-#' \hat{\pi}_0 = \frac{\hat{d}_0}{d}
+#' \hat{\pi}_0 = \frac{\hat{m}_0}{m}
 #' }}
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
@@ -45,20 +42,20 @@
 #' Series B (Statistical Methodology), 64(3), 479-498.
 #'
 #' @export
-d0 <- function(p_value, lambda = 0.5) {
+m0 <- function(p_value, lambda = 0.5) {
 
   # check arguments
   .check_p_value()
   .check_lambda()
 
   # get Storey's estimator
-  d0_hat <- (sum(p_value > lambda) + 1) / (1 - lambda)
-  d0_hat <- pmin(d0_hat, length(p_value))
+  m0_hat <- (sum(p_value > lambda) + 1) / (1 - lambda)
+  m0_hat <- pmin(m0_hat, length(p_value))
 
   # output
   if (length(lambda) == 1) {
-    return(d0_hat)
+    return(m0_hat)
   }
   names(lambda) <- lambda
-  map_dbl(lambda, d0, p_value = p_value)
+  map_dbl(lambda, m0, p_value = p_value)
 }

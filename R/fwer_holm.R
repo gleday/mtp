@@ -15,8 +15,8 @@
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{d - \max\left(j - k, 0\right)}{k},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -26,7 +26,7 @@
 #'   \begin{cases}
 #'   \widetilde{p}_{(1)} = \min\left( a_1 p_{(1)}, 1\right),\\
 #'   \widetilde{p}_{(j)} = \max\left( a_j p_{(j)},
-#'   \widetilde{p}_{(j - 1)}\right), \ \text{for}\ j=2, \ldots, d
+#'   \widetilde{p}_{(j - 1)}\right), \ \text{for}\ j=2, \ldots, m
 #'   \end{cases}
 #'  }
 #'  }
@@ -35,7 +35,7 @@
 #' \eqn{\qquad
 #' \displaystyle{
 #'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
 #' The generalized Holm procedure guarantees
@@ -71,11 +71,11 @@ fwer_holm <- function(p_value, k = 1, .return = "p", alpha = NULL) {
   .check_return()
 
   # get adjustment factors
-  d <- length(p_value)
-  j <- seq_len(d)
+  m <- length(p_value)
+  j <- seq_len(m)
   o <- order(p_value)
   ro <- order(o)
-  a <- (d - pmax(0, j - k)) / k
+  a <- (m - pmax(0, j - k)) / k
 
   # output
   p <- pmin(cummax(a * p_value[o]), 1)[ro]

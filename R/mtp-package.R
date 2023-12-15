@@ -7,15 +7,18 @@
 #' (incorrect rejections) when
 #' conducting multiple statistical tests.
 #'
-#' @section Setting and notation:
+#' @section Setting:
 #'
-#' Testing of \eqn{d} null hypotheses
-#' \eqn{H_{1}, \ldots, H_{d}} with
-#' observed P-values \eqn{p_{1}, \ldots, p_{d}}.\cr
-#' The ordered P-values are denoted by
-#' \eqn{p_{(1)} \leq \ldots \leq p_{(d)}} and
-#' their corresponding hypotheses by
-#' \eqn{H_{(1)}, \ldots, H_{(d)}}.
+#' Testing of \eqn{m} null hypotheses
+#' \eqn{H_{1}, \ldots, H_{m}} with
+#' observed P-values \eqn{p_{1}, \ldots, p_{m}}.
+#'
+#' @section Notation:
+#'
+#' \eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered P-values.\cr
+#' \eqn{H_{(1)}, \ldots, H_{(m)}}: ordered null hypotheses.\cr
+#' \eqn{\text{R}}: number of rejected null hypotheses.\cr
+#' \eqn{\text{V}}: number of false rejections.
 #'
 #' @section Type I error criteria:
 #'
@@ -23,9 +26,9 @@
 #' to assess the likelihood of committing Type I errors:
 #'
 #' * the \strong{familywise error rate} (FWER),
-#' defined as the probability that the number \eqn{\text{V}} of
+#' defined as the probability that the number of
 #' false rejections equals or exceeds a predefined
-#' number \eqn{1 \leq \text{k} \leq \text{d}}:
+#' number \eqn{1 \leq \text{k} \leq \text{m}}:
 #' \deqn{\text{FWER(k)} = \text{Pr}(\text{V} \geq \text{k}).}
 #' See functions [fwer_bon()], [fwer_holm()],
 #' [fwer_hoch()] and [fwer_abon()].
@@ -33,10 +36,9 @@
 #'
 #' * the \strong{false rejection exceedance} (FRX),
 #' defined as the probability that the proportion
-#' \eqn{\text{V}/\text{R}} of false rejections,
-#' among the total number \eqn{\text{R}} of rejections,
-#' exceeds a predefined proportion \eqn{0 \leq \text{c} \leq 1}:
-#' \deqn{\text{FRX(c)} = \text{Pr}(\text{V}/\text{R} > \text{c}).}
+#' of false rejections among all rejected hypotheses
+#' exceeds a predefined proportion \eqn{0 \leq \text{d} \leq 1}:
+#' \deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 #' See functions [frx_holm()] and [frx_hoch()].
 #'
 #' * the \strong{per family error rate} (PFER),
@@ -45,12 +47,12 @@
 #' See functions [pfer_bon()] and [pfer_abon()].
 #'
 #' * the \strong{false rejection rate} (FRR),
-#' defined as the expected proportion of false rejections
-#' among all rejections:
+#' defined as the expected proportion
+#' of false rejections among all rejected hypotheses:
 #' \deqn{\text{FRR} = \text{E}(\text{V}/\text{R}).}
 #' See functions [frr_bh()] and [frr_abh()].
 #'
-#' Note that the term "discovery" commonly
+#' Note: the term "discovery" commonly
 #' adopted in literature is replaced by the
 #' more neutral term "rejection".
 #'
@@ -69,12 +71,12 @@
 #' The functions in `mtp` perform these adjustments
 #' and allow to obtain:
 #' * the \strong{adjusted P-values}
-#' \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{d}}.
+#' \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
 #' when the argument `.return = "p"`.
-#' * the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{d}}
+#' * the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
 #' when the argument `.return = "a"`.
 #' * the \strong{adjusted critical values}
-#' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{d}}
+#' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}
 #' when the argument `alpha` is provided.
 #'
 #' Adjustments in `mtp` preserve the ordering of P-values
@@ -93,18 +95,18 @@
 #'  \displaystyle{
 #'   \text{reject}\ \ H_{(j)} \qquad
 #'   \text{if} \qquad \widetilde{p}_{(j)} \leq \alpha,
-#'   \qquad\text{for}\ j=1, \ldots, d.
+#'   \qquad\text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
 #' * reject hypotheses with observed P-values smaller than or equal to
 #' the \strong{adjusted critical values}, i.e.:
-#' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{d}}:
+#' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}:
 #' \deqn{
 #'  \displaystyle{
 #'  \text{reject}\ \ H_{(j)} \qquad
 #'   \text{if} \qquad p_{(j)} \leq \widetilde{\alpha}_{j},
-#'   \qquad\text{for}\ j=1, \ldots, d.
+#'   \qquad\text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -114,7 +116,7 @@
 #' yield a single adjusted critical value
 #' for all hypotheses
 #' (\eqn{\widetilde{\alpha}_{1} = \ldots =
-#' \widetilde{\alpha}_{d}}).
+#' \widetilde{\alpha}_{m}}).
 #'
 #' @section Types of multiple testing procedures:
 #'

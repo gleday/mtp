@@ -15,11 +15,11 @@
   assert_that(is.finite(k))
 }
 
-.check_c <- function() {
-  c <- get("c", envir = parent.frame())
-  assert_that(is.number(c))
-  assert_that(is.finite(c))
-  assert_that(between(c, 0, 1))
+.check_d <- function() {
+  d <- get("d", envir = parent.frame())
+  assert_that(is.number(d))
+  assert_that(is.finite(d))
+  assert_that(between(d, 0, 1))
 }
 
 .check_lambda <- function() {

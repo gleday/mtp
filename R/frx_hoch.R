@@ -3,7 +3,7 @@
 #' @inheritParams frx_holm
 #'
 #' @description
-#' Control \eqn{\text{FRX(c)}} using modification of
+#' Control \eqn{\text{FRX(d)}} using modification of
 #' Hochberg's step-up procedure (Sarkar, 2008;
 #' Guo et al., 2014)
 #'
@@ -16,9 +16,9 @@
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{d - j + \left\lfloor c j \right\rfloor + 1}
-#'   {\left\lfloor c j \right\rfloor + 1},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   a_j = \frac{d - j + \left\lfloor d j \right\rfloor + 1}
+#'   {\left\lfloor d j \right\rfloor + 1},
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -28,7 +28,7 @@
 #'   \begin{cases}
 #'   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
 #'   \widetilde{p}_{j} = \min\left( a_j p_{j},
-#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
 #'   \end{cases}
 #'  }
 #'  }
@@ -37,7 +37,7 @@
 #' \eqn{\qquad
 #' \displaystyle{
 #'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
 #' Here, \eqn{\left\lfloor x \right\rfloor} denotes
@@ -45,8 +45,9 @@
 #' largest integer that is smaller or equal to \eqn{x}.
 #'
 #' The modified Hochberg procedure guarantees
-#' that \eqn{\text{FRX(c)} \leq \alpha} under some
-#' assumptions on the dependence of P-values.
+#' that \eqn{\text{FRX(d)} \leq \alpha} under some
+#' assumptions on the dependence of P-values
+#' (Simes inequality).
 #'
 #' The modified Hochberg procedure uses the same
 #' adjustment factors as the modified Holm procedure
@@ -73,20 +74,20 @@
 #' controlling the false discovery proportion.
 #'
 #' @export
-frx_hoch <- function(p_value, c = 0, .return = "p", alpha = NULL) {
+frx_hoch <- function(p_value, d = 0, .return = "p", alpha = NULL) {
 
   # check arguments
   .check_p_value()
-  .check_c()
+  .check_d()
   .check_return()
 
   # get adjustment factors
-  d <- length(p_value)
-  j <- d:1L
-  cj <- floor(c * j)
+  m <- length(p_value)
+  j <- m:1L
+  dj <- floor(d * j)
   o <- order(p_value)[j]
   ro <- order(o)
-  a <- (d - j + cj + 1) / (cj + 1)
+  a <- (m - j + dj + 1) / (dj + 1)
 
   # output
   p <- pmin(1, cummin(a * p_value[o]))[ro]

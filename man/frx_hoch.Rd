@@ -4,17 +4,17 @@
 \alias{frx_hoch}
 \title{FRX control using modified Hochberg (step-down)}
 \usage{
-frx_hoch(p_value, c = 0, .return = "p", alpha = NULL)
+frx_hoch(p_value, d = 0, .return = "p", alpha = NULL)
 }
 \arguments{
 \item{p_value}{\link{numeric} vector. Observed P-values.}
 
-\item{c}{\link{numeric} scalar. Exceedance level (between 0 and 1).}
+\item{d}{\link{numeric} scalar. Exceedance level (between 0 and 1).}
 
 \item{.return}{\link{character} scalar. Return adjusted P-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRX(c)}}
+\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRX(d)}}
 level (between 0 and 1). Overrides \code{.return} and
 return adjusted critical values.}
 }
@@ -27,21 +27,22 @@ A \link{numeric} vector of:
 }
 }
 \description{
-Control \eqn{\text{FRX(c)}} using modification of
-Hochberg's step-up procedure (Sarkar, 2008)
+Control \eqn{\text{FRX(d)}} using modification of
+Hochberg's step-up procedure (Sarkar, 2008;
+Guo et al., 2014)
 }
 \details{
 The modified Holm procedure
-(Sarkar, 2008; Remark 4.2)
+(Guo et al., 2014; Theorem 3.1)
 consists in using the decision procedure
 described in \link{mtp-package} using:
 \itemize{
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{d - j + \left\lfloor c j \right\rfloor + 1}
-  {\left\lfloor c j \right\rfloor + 1},
-  \ \text{for}\ j=1, \ldots, d.
+  a_j = \frac{d - j + \left\lfloor d j \right\rfloor + 1}
+  {\left\lfloor d j \right\rfloor + 1},
+  \ \text{for}\ j=1, \ldots, m.
  }
 }
 \item the adjusted P-values:
@@ -50,7 +51,7 @@ described in \link{mtp-package} using:
   \begin{cases}
   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
   \widetilde{p}_{j} = \min\left( a_j p_{j},
-  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
   \end{cases}
  }
  }
@@ -58,7 +59,7 @@ described in \link{mtp-package} using:
 \eqn{\qquad
 \displaystyle{
   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j=1, \ldots, m.
 } }
 }
 
@@ -67,8 +68,9 @@ the floor function returning the
 largest integer that is smaller or equal to \eqn{x}.
 
 The modified Hochberg procedure guarantees
-that \eqn{\text{FRX(c)} \leq \alpha} under some
-assumptions on the dependence of P-values.
+that \eqn{\text{FRX(d)} \leq \alpha} under some
+assumptions on the dependence of P-values
+(Simes inequality).
 
 The modified Hochberg procedure uses the same
 adjustment factors as the modified Holm procedure
@@ -78,7 +80,9 @@ set of rejected hypotheses.
 \references{
 Sarkar, S. K. (2008). Generalizing Simes’ test and
 Hochberg’s stepup procedure.
-The Annals of Statistics, 36(1), 337-363.
+The Annals of Statistics, 36(1), 337-363.\cr
+Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
+controlling the false discovery proportion.
 }
 \seealso{
 Other FRX: 

@@ -18,8 +18,8 @@
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{d}{j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   a_j = \frac{m}{j},
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -29,7 +29,7 @@
 #'   \begin{cases}
 #'   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
 #'   \widetilde{p}_{j} = \min\left( a_j p_{j},
-#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
 #'   \end{cases}
 #'  }
 #'  }
@@ -38,12 +38,13 @@
 #' \eqn{\qquad
 #' \displaystyle{
 #'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
 #' The BH procedure guarantees
-#' that \eqn{\text{FRR} \leq \alpha} under
-#' independence or positive dependence of P-values.
+#' that \eqn{\text{FRR} \leq \alpha} under some
+#' assumptions on the dependence of P-values
+#' (Simes inequality).
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
@@ -71,11 +72,11 @@ frr_bh <- function(p_value, .return = "p", alpha = NULL) {
   .check_return()
 
   # get adjustment factors
-  d <- length(p_value)
-  j <- d:1L
+  m <- length(p_value)
+  j <- m:1L
   o <- order(p_value, decreasing = TRUE)
   ro <- order(o)
-  a <- d / j
+  a <- m / j
 
   # output
   p <- pmin(cummin(a * p_value[o]), 1)[ro]

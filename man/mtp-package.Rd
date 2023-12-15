@@ -13,16 +13,21 @@ methods) on the occurrence of Type I errors
 (incorrect rejections) when
 conducting multiple statistical tests.
 }
-\section{Setting and notation}{
+\section{Setting}{
 
 
-Testing of \eqn{d} null hypotheses
-\eqn{H_{1}, \ldots, H_{d}} with
-observed P-values \eqn{p_{1}, \ldots, p_{d}}.\cr
-The ordered P-values are denoted by
-\eqn{p_{(1)} \leq \ldots \leq p_{(d)}} and
-their corresponding hypotheses by
-\eqn{H_{(1)}, \ldots, H_{(d)}}.
+Testing of \eqn{m} null hypotheses
+\eqn{H_{1}, \ldots, H_{m}} with
+observed P-values \eqn{p_{1}, \ldots, p_{m}}.
+}
+
+\section{Notation}{
+
+
+\eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered P-values.\cr
+\eqn{H_{(1)}, \ldots, H_{(m)}}: ordered null hypotheses.\cr
+\eqn{\text{R}}: number of rejected null hypotheses.\cr
+\eqn{\text{V}}: number of false rejections.
 }
 
 \section{Type I error criteria}{
@@ -32,32 +37,31 @@ their corresponding hypotheses by
 to assess the likelihood of committing Type I errors:
 \itemize{
 \item the \strong{familywise error rate} (FWER),
-defined as the probability that the number \eqn{\text{V}} of
+defined as the probability that the number of
 false rejections equals or exceeds a predefined
-number \eqn{1 \leq \text{k} \leq \text{d}}:
+number \eqn{1 \leq \text{k} \leq \text{m}}:
 \deqn{\text{FWER(k)} = \text{Pr}(\text{V} \geq \text{k}).}
 See functions \code{\link[=fwer_bon]{fwer_bon()}}, \code{\link[=fwer_holm]{fwer_holm()}},
 \code{\link[=fwer_hoch]{fwer_hoch()}} and \code{\link[=fwer_abon]{fwer_abon()}}.
 \cr\cr
 \item the \strong{false rejection exceedance} (FRX),
 defined as the probability that the proportion
-\eqn{\text{V}/\text{R}} of false rejections,
-among the total number \eqn{\text{R}} of rejections,
-exceeds a predefined proportion \eqn{0 \leq \text{c} \leq 1}:
-\deqn{\text{FRX(c)} = \text{Pr}(\text{V}/\text{R} > \text{c}).}
+of false rejections among all rejected hypotheses
+exceeds a predefined proportion \eqn{0 \leq \text{d} \leq 1}:
+\deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 See functions \code{\link[=frx_holm]{frx_holm()}} and \code{\link[=frx_hoch]{frx_hoch()}}.
 \item the \strong{per family error rate} (PFER),
 defined as the expected number of false rejections:
 \deqn{\text{PFER} = \text{E}(\text{V}).}
 See functions \code{\link[=pfer_bon]{pfer_bon()}} and \code{\link[=pfer_abon]{pfer_abon()}}.
 \item the \strong{false rejection rate} (FRR),
-defined as the expected proportion of false rejections
-among all rejections:
+defined as the expected proportion
+of false rejections among all rejected hypotheses:
 \deqn{\text{FRR} = \text{E}(\text{V}/\text{R}).}
 See functions \code{\link[=frr_bh]{frr_bh()}} and \code{\link[=frr_abh]{frr_abh()}}.
 }
 
-Note that the term "discovery" commonly
+Note: the term "discovery" commonly
 adopted in literature is replaced by the
 more neutral term "rejection".
 }
@@ -79,12 +83,12 @@ The functions in \code{mtp} perform these adjustments
 and allow to obtain:
 \itemize{
 \item the \strong{adjusted P-values}
-\eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{d}}.
+\eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
 when the argument \code{.return = "p"}.
-\item the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{d}}
+\item the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
 when the argument \code{.return = "a"}.
 \item the \strong{adjusted critical values}
-\eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{d}}
+\eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}
 when the argument \code{alpha} is provided.
 }
 
@@ -106,17 +110,17 @@ equal to the critical value \eqn{\alpha}, i.e.:
  \displaystyle{
   \text{reject}\ \ H_{(j)} \qquad
   \text{if} \qquad \widetilde{p}_{(j)} \leq \alpha,
-  \qquad\text{for}\ j=1, \ldots, d.
+  \qquad\text{for}\ j=1, \ldots, m.
  }
 }
 \item reject hypotheses with observed P-values smaller than or equal to
 the \strong{adjusted critical values}, i.e.:
-\eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{d}}:
+\eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}:
 \deqn{
  \displaystyle{
  \text{reject}\ \ H_{(j)} \qquad
   \text{if} \qquad p_{(j)} \leq \widetilde{\alpha}_{j},
-  \qquad\text{for}\ j=1, \ldots, d.
+  \qquad\text{for}\ j=1, \ldots, m.
  }
 }
 }
@@ -127,7 +131,7 @@ each null hypothesis, while others
 yield a single adjusted critical value
 for all hypotheses
 (\eqn{\widetilde{\alpha}_{1} = \ldots =
-\widetilde{\alpha}_{d}}).
+\widetilde{\alpha}_{m}}).
 }
 
 \section{Types of multiple testing procedures}{
@@ -166,8 +170,14 @@ Hochberg, Y. (1988). A sharper Bonferroni procedure for
 multiple tests of significance. Biometrika, 75(4), 800-802.\cr
 Lehmann, E. L., & Romano, J. P. (2005). Generalizations of
 the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.\cr
+Gordon, A., Glazko, G., Qiu, X., & Yakovlev, A. (2007).
+Control of the mean number of false discoveries,
+Bonferroni and stability of multiple testing.
+The Annals of Applied Statistics, 1(1), 179-190.\cr
 Sarkar, S. K. (2008). Generalizing Simes’ test and
 Hochberg’s stepup procedure. The Annals of Statistics, 36(1), 337-363.\cr
+Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
+controlling the false discovery proportion.\cr
 Wang, L. (2017). Adaptive procedure for generalized
 familywise error rate control. Communications in
 Statistics-Simulation and Computation, 46(10), 8140-8151.

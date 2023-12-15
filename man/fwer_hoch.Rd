@@ -39,8 +39,8 @@ described in \link{mtp-package} using:
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{d - \max\left(j - k, 0\right)}{k},
-  \ \text{for}\ j=1, \ldots, d.
+  a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+  \ \text{for}\ j=1, \ldots, m.
  }
 }
 \item the adjusted P-values:
@@ -49,7 +49,7 @@ described in \link{mtp-package} using:
   \begin{cases}
   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
   \widetilde{p}_{j} = \min\left( a_j p_{j},
-  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
   \end{cases}
  }
  }
@@ -57,7 +57,7 @@ described in \link{mtp-package} using:
 \eqn{\qquad
 \displaystyle{
   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j=1, \ldots, m.
 } }
 }
 

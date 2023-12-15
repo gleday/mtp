@@ -1,7 +1,7 @@
 #' FRR control using adaptive Benjamini-Hochberg (step-up)
 #'
 #' @inheritParams frr_bh
-#' @inheritParams d0
+#' @inheritParams m0
 #'
 #' @description
 #' Control \eqn{\text{FRR}} using adaptive
@@ -17,12 +17,12 @@
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{\hat{d}_0}{j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   a_j = \frac{\hat{m}_0}{j},
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  },
 #' }\cr
-#' where \eqn{\widehat{d}_0} is Storey's estimator of the
-#' number \eqn{d_0} of true null hypotheses (see [d0()]).
+#' where \eqn{\widehat{m}_0} is Storey's estimator of the
+#' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
 #' * the adjusted P-values:
 #' \eqn{\qquad\quad
@@ -30,7 +30,7 @@
 #'   \begin{cases}
 #'   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
 #'   \widetilde{p}_{j} = \min\left( a_j p_{j},
-#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
 #'   \end{cases}
 #'  }
 #'  }
@@ -39,12 +39,13 @@
 #' \eqn{\qquad
 #' \displaystyle{
 #'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
 #' The BH procedure guarantees
-#' that \eqn{\text{FRR} \leq \alpha} under
-#' independence or positive dependence of P-values.
+#' that \eqn{\text{FRR} \leq \alpha} under some
+#' assumptions on the dependence of P-values
+#' (Simes inequality).
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
@@ -78,11 +79,11 @@ frr_abh <- function(p_value, lambda = 0.5, .return = "p", alpha = NULL) {
   .check_return()
 
   # get adjustment factors
-  d <- length(p_value)
-  j <- d:1L
+  m <- length(p_value)
+  j <- m:1L
   o <- order(p_value, decreasing = TRUE)
   ro <- order(o)
-  a <- d0(p_value = p_value, lambda = lambda) / j
+  a <- m0(p_value = p_value, lambda = lambda) / j
 
   # output
   p <- pmin(cummin(a * p_value[o]), 1)[ro]

@@ -37,8 +37,8 @@ described in \link{mtp-package} using:
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{d}{j},
-  \ \text{for}\ j=1, \ldots, d.
+  a_j = \frac{m}{j},
+  \ \text{for}\ j=1, \ldots, m.
  }
 }
 \item the adjusted P-values:
@@ -47,7 +47,7 @@ described in \link{mtp-package} using:
   \begin{cases}
   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
   \widetilde{p}_{j} = \min\left( a_j p_{j},
-  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, d-1
+  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
   \end{cases}
  }
  }
@@ -55,13 +55,14 @@ described in \link{mtp-package} using:
 \eqn{\qquad
 \displaystyle{
   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j=1, \ldots, m.
 } }
 }
 
 The BH procedure guarantees
-that \eqn{\text{FRR} \leq \alpha} under
-independence or positive dependence of P-values.
+that \eqn{\text{FRR} \leq \alpha} under some
+assumptions on the dependence of P-values
+(Simes inequality).
 }
 \references{
 Benjamini, Y., & Hochberg, Y. (1995). Controlling the

@@ -1,7 +1,7 @@
 #' FWER control using adaptive Bonferroni (single-step)
 #'
 #' @inheritParams fwer_bon
-#' @inheritParams d0
+#' @inheritParams m0
 #'
 #' @description
 #' Control \eqn{\text{FWER(k)}} using generalization of
@@ -16,17 +16,17 @@
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a = \frac{\widehat{d}_0}{k}
+#'   a = \frac{\widehat{m}_0}{k}
 #'  },
 #' }\cr
-#' where \eqn{\widehat{d}_0} is Storey's estimator of the
-#' number \eqn{d_0} of true null hypotheses (see [d0()]).
+#' where \eqn{\widehat{m}_0} is Storey's estimator of the
+#' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
 #' * the adjusted P-values:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -75,7 +75,7 @@ fwer_abon <- function(
   .check_return()
 
   # get adjustment factor
-  a <- d0(p_value = p_value, lambda = lambda) / k
+  a <- m0(p_value = p_value, lambda = lambda) / k
 
   # output
   p <- pmin(a * p_value, 1)

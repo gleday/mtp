@@ -4,17 +4,17 @@
 \alias{frx_holm}
 \title{FRX control using modified Holm (step-down)}
 \usage{
-frx_holm(p_value, c = 0, .return = "p", alpha = NULL)
+frx_holm(p_value, d = 0, .return = "p", alpha = NULL)
 }
 \arguments{
 \item{p_value}{\link{numeric} vector. Observed P-values.}
 
-\item{c}{\link{numeric} scalar. Exceedance level (between 0 and 1).}
+\item{d}{\link{numeric} scalar. Exceedance level (between 0 and 1).}
 
 \item{.return}{\link{character} scalar. Return adjusted P-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRX(c)}}
+\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRX(d)}}
 level (between 0 and 1). Overrides \code{.return} and
 return adjusted critical values.}
 }
@@ -27,7 +27,7 @@ A \link{numeric} vector of:
 }
 }
 \description{
-Control \eqn{\text{FRX(c)}} using modification of
+Control \eqn{\text{FRX(d)}} using modification of
 Holm's step-down procedure (Lehmann & Romano, 2005)
 }
 \details{
@@ -39,9 +39,9 @@ described in \link{mtp-package} using:
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{d - j + \left\lfloor c j \right\rfloor + 1}
-  {\left\lfloor c j \right\rfloor + 1},
-  \ \text{for}\ j=1, \ldots, d.
+  a_j = \frac{m - j + \left\lfloor d j \right\rfloor + 1}
+  {\left\lfloor d j \right\rfloor + 1},
+  \ \text{for}\ j = 1, \ldots, m.
  }
 }
 \item the adjusted P-values:
@@ -50,7 +50,7 @@ described in \link{mtp-package} using:
   \begin{cases}
   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
   \widetilde{p}_{j} = \max\left( a_j p_{j},
-  \widetilde{p}_{j - 1}\right), \ \text{for}\ j=2, \ldots, d
+  \widetilde{p}_{j - 1}\right), \ \text{for}\ j=2, \ldots, m
   \end{cases}
  }
  }
@@ -58,7 +58,7 @@ described in \link{mtp-package} using:
 \eqn{\qquad
 \displaystyle{
   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j = 1, \ldots, m.
 } }
 }
 
@@ -67,12 +67,15 @@ the floor function returning the
 largest integer that is smaller or equal to \eqn{x}.
 
 The modified Holm procedure guarantees
-that \eqn{\text{FRX(c)} \leq \alpha} without
-assumptions on the dependence of P-values.
+that \eqn{\text{FRX(d)} \leq \alpha} with some
+assumptions on the dependence of P-values
+(Simes inequality).
 }
 \references{
 Lehmann, E. L., & Romano, J. P. (2005). Generalizations of
-the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.
+the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.\cr
+Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
+controlling the false discovery proportion.
 }
 \seealso{
 Other FRX: 

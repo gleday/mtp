@@ -36,14 +36,14 @@ described in \link{mtp-package} with:
 \item the adjustment factor:
 \eqn{\qquad\quad
  \displaystyle{
-  a = d
+  a = m
  }.
 }
 \item the adjusted P-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j=1, \ldots, m.
  }
 }
 \item the adjusted critical value:

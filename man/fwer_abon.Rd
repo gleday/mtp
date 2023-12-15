@@ -42,16 +42,16 @@ described in \link{mtp-package} with:
 \item the adjustment factor:
 \eqn{\qquad\quad
  \displaystyle{
-  a = \frac{\widehat{d}_0}{k}
+  a = \frac{\widehat{m}_0}{k}
  },
 }\cr
-where \eqn{\widehat{d}_0} is Storey's estimator of the
-number \eqn{d_0} of true null hypotheses (see \code{\link[=d0]{d0()}}).
+where \eqn{\widehat{m}_0} is Storey's estimator of the
+number \eqn{m_0} of true null hypotheses (see \code{\link[=m0]{m0()}}).
 \item the adjusted P-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-  \ \text{for}\ j=1, \ldots, d.
+  \ \text{for}\ j=1, \ldots, m.
  }
 }
 \item the adjusted critical value:

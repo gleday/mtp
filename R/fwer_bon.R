@@ -21,7 +21,7 @@
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a = \frac{d}{k}
+#'   a = \frac{m}{k}
 #'  }.
 #' }
 #'
@@ -29,7 +29,7 @@
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
-#'   \ \text{for}\ j=1, \ldots, d.
+#'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
 #'
@@ -74,15 +74,16 @@ fwer_bon <- function(p_value, k = 1, .return = "p", alpha = NULL) {
   .check_return()
 
   # get adjustment factor
-  a <- length(p_value) / k
+  m <- length(p_value)
+  a <- m / k
 
   # output
   p <- pmin(a * p_value, 1)
   if (!is.null(alpha)) {
-    return(rep(alpha / a, length(p_value)))
+    return(rep(alpha / a, m))
   } else {
     if (.return == "a") {
-      return(rep(a, length(p_value)))
+      return(rep(a, m))
     }
   }
   p
