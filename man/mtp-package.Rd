@@ -3,7 +3,6 @@
 \docType{package}
 \name{mtp-package}
 \alias{mtp-package}
-\alias{_PACKAGE}
 \alias{mtp}
 \title{mtp: multiple hypothesis testing with error control}
 \description{
@@ -183,7 +182,7 @@ familywise error rate control. Communications in
 Statistics-Simulation and Computation, 46(10), 8140-8151.
 }
 \author{
-\strong{Maintainer}: Gwenaël G.R. Leday \email{gwenael.leday@wur.nl} (\href{https://orcid.org/0000-0002-3753-4060}{ORCID})
+\strong{Maintainer}: Gwenaël G.R. Leday \email{gwenael.leday@gmail.com} (\href{https://orcid.org/0000-0002-3753-4060}{ORCID})
 
 }
 \keyword{internal}

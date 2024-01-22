@@ -6,16 +6,16 @@ Author: Gwenaël G.R. Leday [aut, cre]
 Authors@R: c(
     person(
       given = "Gwenaël G.R.", family = "Leday",
-      email = "gwenael.leday@outlook.com", role = c("aut", "cre"),
+      email = "gwenael.leday@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0002-3753-4060")
     )
   )
-Maintainer: Gwenaël G.R. Leday <gwenael.leday@outlook.com>
+Maintainer: Gwenaël G.R. Leday <gwenael.leday@gmail.com>
 Description: Functions to control type I errors when
   conducting multiple statistical tests using different
   error criteria (FWER, FRX) and methods (step-down, step-up).
 License: GPL-3
 Imports: assertthat, dplyr, purrr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Encoding: UTF-8
