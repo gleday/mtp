@@ -84,9 +84,9 @@ and allow to obtain:
 \itemize{
 \item the \strong{adjusted P-values}
 \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
-when the argument \code{.return = "p"}.
+when the argument \code{output = "p"}.
 \item the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
-when the argument \code{.return = "a"}.
+when the argument \code{output = "a"}.
 \item the \strong{adjusted critical values}
 \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}
 when the argument \code{alpha} is provided.

@@ -5,12 +5,12 @@
 \alias{pi0}
 \title{Estimate number or proportion of null hypotheses}
 \usage{
-m0(p_value, lambda = 0.5)
+m0(p, lambda = 0.5)
 
-pi0(p_value, lambda = 0.5)
+pi0(p, lambda = 0.5)
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}

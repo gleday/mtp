@@ -2,11 +2,11 @@
 # Internal R functions
 #----------------------#
 
-.check_p_value <- function() {
-  p_value <- get("p_value", envir = parent.frame())
-  assert_that(all(map_lgl(p_value, is.number)))
-  assert_that(all(is.finite(p_value)))
-  assert_that(all(between(p_value, 0, 1)))
+.check_p <- function() {
+  p <- get("p", envir = parent.frame())
+  assert_that(all(map_lgl(p, is.number)))
+  assert_that(all(is.finite(p)))
+  assert_that(all(between(p, 0, 1)))
 }
 
 .check_k <- function() {
@@ -29,8 +29,27 @@
   assert_that(all(between(lambda, 0, 1)))
 }
 
-.check_return <- function() {
-  .return <- get(".return", envir = parent.frame())
-  assert_that(is.string(.return))
-  assert_that(is.element(.return, set = c("p", "a")))
+.check_output <- function() {
+  output <- get("output", envir = parent.frame())
+  assert_that(is.string(output))
+  assert_that(is.element(output, set = c("p", "a")))
+}
+
+.check_alpha <- function() {
+  alpha <- get("alpha", envir = parent.frame())
+  if (!is.null(alpha)) {
+    assert_that(is.number(alpha))
+    assert_that(is.finite(alpha))
+    assert_that(between(alpha, 0, 1))
+  }
+}
+
+.check_gamma <- function() {
+  gamma <- get("gamma", envir = parent.frame())
+  if (!is.null(gamma)) {
+    assert_that(is.number(gamma))
+    assert_that(is.finite(gamma))
+    m <- get("m", envir = parent.frame())
+    assert_that(between(gamma, 1, m))
+  }
 }

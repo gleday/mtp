@@ -4,24 +4,24 @@
 \alias{pfer_bon}
 \title{PFER control using Bonferroni (single-step)}
 \usage{
-pfer_bon(p_value, .return = "p", alpha = NULL)
+pfer_bon(p, gamma = NULL, output = "p")
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
-\item{.return}{\link{character} scalar. Return adjusted P-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
-
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
-level (between 0 and 1). Overrides \code{.return} and
+\item{gamma}{\link{numeric} scalar. Target \eqn{\text{PFER}}
+level (between 1 and m). Overrides \code{output} and
 return adjusted critical values.}
+
+\item{output}{\link{character} scalar. Return adjusted P-values
+(\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{.return = "p"},
-\item adjustment factors when \code{.return = "a"},
-\item adjusted critical values when \code{alpha} is provided.
+\item adjusted P-values when \code{output = "p"},
+\item adjustment factors when \code{output = "a"},
+\item adjusted critical values when \code{gamma} is provided.
 }
 }
 \description{
@@ -49,13 +49,13 @@ described in \link{mtp-package} with:
 \item the adjusted critical value:
 \eqn{\qquad
  \displaystyle{
-  \widetilde{\alpha} = \frac{\alpha}{a}.
+  \widetilde{\gamma} = \frac{\gamma}{a}.
  }
 }
 }
 
 The Bonferroni procedure guarantees
-that \eqn{\text{PFER} \leq \alpha} without
+that \eqn{\text{PFER} \leq \gamma} without
 assumptions on the dependence of P-values.
 }
 \references{

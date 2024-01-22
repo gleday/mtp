@@ -4,28 +4,28 @@
 \alias{fwer_abon}
 \title{FWER control using adaptive Bonferroni (single-step)}
 \usage{
-fwer_abon(p_value, k = 1, lambda = 0.5, .return = "p", alpha = NULL)
+fwer_abon(p, k = 1, lambda = 0.5, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
 \item{k}{\link{numeric} scalar. Exceedance level (positive integer).}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}
 
-\item{.return}{\link{character} scalar. Return adjusted P-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
-
 \item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
-level (between 0 and 1). Overrides \code{.return} and
+level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
+
+\item{output}{\link{character} scalar. Return adjusted P-values
+(\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{.return = "p"},
-\item adjustment factors when \code{.return = "a"},
+\item adjusted P-values when \code{output = "p"},
+\item adjustment factors when \code{output = "a"},
 \item adjusted critical values when \code{alpha} is provided.
 }
 }

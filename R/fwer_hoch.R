@@ -53,8 +53,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FWER
@@ -67,28 +67,29 @@
 #' The Annals of Statistics, 36(1), 337-363.
 #'
 #' @export
-fwer_hoch <- function(p_value, k = 1, .return = "p", alpha = NULL) {
+fwer_hoch <- function(p, k = 1, alpha = NULL, output = "p") {
 
-  # check arguments
-  .check_p_value()
+  # check input
+  .check_p()
   .check_k()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factors
-  m <- length(p_value)
+  m <- length(p)
   j <- m:1L
-  o <- order(p_value)[j]
+  o <- order(p)[j]
   ro <- order(o)
   a <- (m - pmax(0, j - k)) / k
 
   # output
-  p <- pmin(cummin(a * p_value[o]), 1)[ro]
+  p_adj <- pmin(cummin(a * p[o]), 1)[ro]
   if (!is.null(alpha)) {
-    return((alpha * p_value) / p)
+    return((alpha * p) / p_adj)
   } else {
-    if (.return == "a") {
-      return(p / p_value)
+    if (output == "a") {
+      return(p_adj / p)
     }
   }
-  p
+  p_adj
 }

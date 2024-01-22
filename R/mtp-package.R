@@ -72,9 +72,9 @@
 #' and allow to obtain:
 #' * the \strong{adjusted P-values}
 #' \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
-#' when the argument `.return = "p"`.
+#' when the argument `output = "p"`.
 #' * the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
-#' when the argument `.return = "a"`.
+#' when the argument `output = "a"`.
 #' * the \strong{adjusted critical values}
 #' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}
 #' when the argument `alpha` is provided.

@@ -4,27 +4,27 @@
 \alias{pfer_abon}
 \title{PFER control using adaptive Bonferroni (single-step)}
 \usage{
-pfer_abon(p_value, lambda = 0.5, .return = "p", alpha = NULL)
+pfer_abon(p, lambda = 0.5, gamma = NULL, output = "p")
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}
 
-\item{.return}{\link{character} scalar. Return adjusted P-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
-
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
-level (between 0 and 1). Overrides \code{.return} and
+\item{gamma}{\link{numeric} scalar. Target \eqn{\text{PFER}}
+level (between 1 and m). Overrides \code{output} and
 return adjusted critical values.}
+
+\item{output}{\link{character} scalar. Return adjusted P-values
+(\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{.return = "p"},
-\item adjustment factors when \code{.return = "a"},
-\item adjusted critical values when \code{alpha} is provided.
+\item adjusted P-values when \code{output = "p"},
+\item adjustment factors when \code{output = "a"},
+\item adjusted critical values when \code{gamma} is provided.
 }
 }
 \description{
@@ -54,13 +54,13 @@ number \eqn{m_0} of true null hypotheses (see \code{\link[=m0]{m0()}}).
 \item the adjusted critical value:
 \eqn{\qquad
  \displaystyle{
-  \widetilde{\alpha} = \frac{\alpha}{a}.
+  \widetilde{\gamma} = \frac{\gamma}{a}.
  }
 }
 }
 
 The adaptive Bonferroni procedure guarantees
-that \eqn{\text{PFER} \leq \alpha} under
+that \eqn{\text{PFER} \leq \gamma} under
 independence of P-values.
 }
 \references{

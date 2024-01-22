@@ -60,8 +60,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FRX
@@ -74,29 +74,30 @@
 #' controlling the false discovery proportion.
 #'
 #' @export
-frx_hoch <- function(p_value, d = 0, .return = "p", alpha = NULL) {
+frx_hoch <- function(p, d = 0, alpha = NULL, output = "p") {
 
   # check arguments
-  .check_p_value()
+  .check_p()
   .check_d()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factors
-  m <- length(p_value)
+  m <- length(p)
   j <- m:1L
   dj <- floor(d * j)
-  o <- order(p_value)[j]
+  o <- order(p)[j]
   ro <- order(o)
   a <- (m - j + dj + 1) / (dj + 1)
 
   # output
-  p <- pmin(1, cummin(a * p_value[o]))[ro]
+  p_adj <- pmin(1, cummin(a * p[o]))[ro]
   if (!is.null(alpha)) {
-    return((alpha * p_value) / p)
+    return((alpha * p) / p_adj)
   } else {
-    if (.return == "a") {
-      return(p / p_value)
+    if (output == "a") {
+      return(p_adj / p)
     }
   }
-  p
+  p_adj
 }

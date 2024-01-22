@@ -1,12 +1,12 @@
 #' FWER control using Bonferroni (single-step)
 #'
-#' @param p_value [numeric] vector. Observed P-values.
+#' @param p [numeric] vector. Observed P-values.
 #' @param k [numeric] scalar. Exceedance level (positive integer).
-#' @param .return [character] scalar. Return adjusted P-values
-#' (`"p"`) or adjustment factors (`"a"`).
 #' @param alpha [numeric] scalar. Target \eqn{\text{FWER(k)}}
-#' level (between 0 and 1). Overrides `.return` and
+#' level (between 0 and 1). Overrides `output` and
 #' return adjusted critical values.
+#' @param output [character] scalar. Return adjusted P-values
+#' (`"p"`) or adjustment factors (`"a"`).
 #'
 #' @description
 #' Control \eqn{\text{FWER(k)}} using generalization of
@@ -50,8 +50,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FWER
@@ -66,25 +66,26 @@
 #' the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.
 #'
 #' @export
-fwer_bon <- function(p_value, k = 1, .return = "p", alpha = NULL) {
+fwer_bon <- function(p, k = 1, alpha = NULL, output = "p") {
 
-  # check arguments
-  .check_p_value()
+  # check input
+  .check_p()
   .check_k()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factor
-  m <- length(p_value)
+  m <- length(p)
   a <- m / k
 
   # output
-  p <- pmin(a * p_value, 1)
+  p_adj <- pmin(a * p, 1)
   if (!is.null(alpha)) {
     return(rep(alpha / a, m))
   } else {
-    if (.return == "a") {
-      return(rep(a, m))
+    if (output == "a") {
+      return(p_adj / p)
     }
   }
-  p
+  p_adj
 }

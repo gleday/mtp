@@ -1,6 +1,6 @@
 #' PFER control using adaptive Bonferroni (single-step)
 #'
-#' @inheritParams fwer_bon
+#' @inheritParams pfer_bon
 #' @inheritParams m0
 #'
 #' @description
@@ -32,12 +32,12 @@
 #' * the adjusted critical value:
 #' \eqn{\qquad
 #'  \displaystyle{
-#'   \widetilde{\alpha} = \frac{\alpha}{a}.
+#'   \widetilde{\gamma} = \frac{\gamma}{a}.
 #'  }
 #' }
 #'
 #' The adaptive Bonferroni procedure guarantees
-#' that \eqn{\text{PFER} \leq \alpha} under
+#' that \eqn{\text{PFER} \leq \gamma} under
 #' independence of P-values.
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
@@ -46,9 +46,9 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
-#' * adjusted critical values when `alpha` is provided.
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
+#' * adjusted critical values when `gamma` is provided.
 #'
 #' @family PFER
 #'
@@ -61,14 +61,26 @@
 #' structured hypotheses. arXiv preprint arXiv:1812.00258.
 #'
 #' @export
-pfer_abon <- function(p_value, lambda = 0.5, .return = "p", alpha = NULL) {
+pfer_abon <- function(p, lambda = 0.5, gamma = NULL, output = "p") {
 
-  fwer_abon(
-    p_value = p_value,
-    lambda = lambda,
-    k = 1,
-    .return = .return,
-    alpha = alpha
-  )
+  # check arguments
+  .check_p()
+  .check_lambda()
+  .check_gamma()
+  .check_output()
 
+  # get adjustment factor
+  m <- length(p)
+  a <- m0(p = p, lambda = lambda)
+
+  # output
+  p_adj <- pmin(a * p, m)
+  if (!is.null(gamma)) {
+    return(rep(gamma / a, m))
+  } else {
+    if (output == "a") {
+      return(rep(a, m))
+    }
+  }
+  p_adj
 }

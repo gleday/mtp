@@ -47,8 +47,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FWER adaptive
@@ -64,27 +64,27 @@
 #' Statistics-Simulation and Computation, 46(10), 8140-8151.
 #'
 #' @export
-fwer_abon <- function(
-    p_value, k = 1, lambda = 0.5, .return = "p", alpha = NULL
-    ) {
+fwer_abon <- function(p, k = 1, lambda = 0.5, alpha = NULL, output = "p") {
 
   # check arguments
-  .check_p_value()
+  .check_p()
   .check_k()
   .check_lambda()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factor
-  a <- m0(p_value = p_value, lambda = lambda) / k
+  m <- length(p)
+  a <- m0(p = p, lambda = lambda) / k
 
   # output
-  p <- pmin(a * p_value, 1)
+  p_adj <- pmin(a * p, 1)
   if (!is.null(alpha)) {
-    return(rep(alpha / a, length(p_value)))
+    return(rep(alpha / a, m))
   } else {
-    if (.return == "a") {
-      return(rep(a, length(p_value)))
+    if (output == "a") {
+      return(rep(a, m))
     }
   }
-  p
+  p_adj
 }

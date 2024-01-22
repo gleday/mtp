@@ -1,6 +1,9 @@
 #' PFER control using Bonferroni (single-step)
 #'
 #' @inheritParams fwer_bon
+#' @param gamma [numeric] scalar. Target \eqn{\text{PFER}}
+#' level (between 1 and m). Overrides `output` and
+#' return adjusted critical values.
 #'
 #' @description
 #' Control \eqn{\text{PFER}} using Bonferroni's
@@ -29,12 +32,12 @@
 #' * the adjusted critical value:
 #' \eqn{\qquad
 #'  \displaystyle{
-#'   \widetilde{\alpha} = \frac{\alpha}{a}.
+#'   \widetilde{\gamma} = \frac{\gamma}{a}.
 #'  }
 #' }
 #'
 #' The Bonferroni procedure guarantees
-#' that \eqn{\text{PFER} \leq \alpha} without
+#' that \eqn{\text{PFER} \leq \gamma} without
 #' assumptions on the dependence of P-values.
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
@@ -43,9 +46,9 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
-#' * adjusted critical values when `alpha` is provided.
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
+#' * adjusted critical values when `gamma` is provided.
 #'
 #' @family PFER
 #'
@@ -62,13 +65,25 @@
 #' The Annals of Applied Statistics, 1(1), 179-190.
 #'
 #' @export
-pfer_bon <- function(p_value, .return = "p", alpha = NULL) {
+pfer_bon <- function(p, gamma = NULL, output = "p") {
 
-  fwer_bon(
-    p_value = p_value,
-    k = 1,
-    .return = .return,
-    alpha = alpha
-    )
+  # check arguments
+  .check_p()
+  .check_gamma()
+  .check_output()
 
+  # get adjustment factor
+  m <- length(p)
+  a <- m
+
+  # output
+  p_adj <- pmin(a * p, m)
+  if (!is.null(gamma)) {
+    return(rep(gamma / a, m))
+  } else {
+    if (output == "a") {
+      return(rep(a, m))
+    }
+  }
+  p_adj
 }

@@ -53,8 +53,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FRR
@@ -71,28 +71,29 @@
 #' Statistical Methodology, 66(1), 187-205.
 #'
 #' @export
-frr_abh <- function(p_value, lambda = 0.5, .return = "p", alpha = NULL) {
+frr_abh <- function(p, lambda = 0.5, alpha = NULL, output = "p") {
 
   # check arguments
-  .check_p_value()
+  .check_p()
   .check_lambda()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factors
-  m <- length(p_value)
+  m <- length(p)
   j <- m:1L
-  o <- order(p_value, decreasing = TRUE)
+  o <- order(p, decreasing = TRUE)
   ro <- order(o)
-  a <- m0(p_value = p_value, lambda = lambda) / j
+  a <- m0(p = p, lambda = lambda) / j
 
   # output
-  p <- pmin(cummin(a * p_value[o]), 1)[ro]
+  p_adj <- pmin(cummin(a * p[o]), 1)[ro]
   if (!is.null(alpha)) {
-    return((alpha * p_value) / p)
+    return((alpha * p) / p_adj)
   } else {
-    if (.return == "a") {
-      return(p / p_value)
+    if (output == "a") {
+      return(p_adj / p)
     }
   }
-  p
+  p_adj
 }

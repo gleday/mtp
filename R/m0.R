@@ -42,20 +42,21 @@
 #' Series B (Statistical Methodology), 64(3), 479-498.
 #'
 #' @export
-m0 <- function(p_value, lambda = 0.5) {
+m0 <- function(p, lambda = 0.5) {
 
   # check arguments
-  .check_p_value()
+  .check_p()
   .check_lambda()
 
   # get Storey's estimator
-  m0_hat <- (sum(p_value > lambda) + 1) / (1 - lambda)
-  m0_hat <- pmin(m0_hat, length(p_value))
+  m <- length(p)
+  m0_hat <- (sum(p > lambda) + 1) / (1 - lambda)
+  m0_hat <- pmin(m0_hat, m)
 
   # output
   if (length(lambda) == 1) {
     return(m0_hat)
   }
   names(lambda) <- lambda
-  map_dbl(lambda, m0, p_value = p_value)
+  map_dbl(lambda, m0, p = p)
 }

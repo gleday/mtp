@@ -4,23 +4,23 @@
 \alias{frr_bh}
 \title{FRR control using Benjamini-Hochberg (step-up)}
 \usage{
-frr_bh(p_value, .return = "p", alpha = NULL)
+frr_bh(p, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
-
-\item{.return}{\link{character} scalar. Return adjusted P-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
 \item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRR}}
-level (between 0 and 1). Overrides \code{.return} and
+level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
+
+\item{output}{\link{character} scalar. Return adjusted P-values
+(\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{.return = "p"},
-\item adjustment factors when \code{.return = "a"},
+\item adjusted P-values when \code{ouput = "p"},
+\item adjustment factors when \code{ouput = "a"},
 \item adjusted critical values when \code{alpha} is provided.
 }
 }
@@ -30,7 +30,7 @@ step-up procedure
 }
 \details{
 The Benjamini-Hochberg (BH) procedure
-(Sarkar, 2008; Remark 4.2)
+(Benjamini and Hochberg, 1995)
 consists in using the decision procedure
 described in \link{mtp-package} using:
 \itemize{

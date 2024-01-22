@@ -2,7 +2,7 @@
 #'
 #' @param d [numeric] scalar. Exceedance level (between 0 and 1).
 #' @param alpha [numeric] scalar. Target \eqn{\text{FRX(d)}}
-#' level (between 0 and 1). Overrides `.return` and
+#' level (between 0 and 1). Overrides `output` and
 #' return adjusted critical values.
 #' @inheritParams fwer_bon
 #'
@@ -58,8 +58,8 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `.return = "p"`,
-#' * adjustment factors when `.return = "a"`,
+#' * adjusted P-values when `output = "p"`,
+#' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
 #' @family FRX
@@ -71,29 +71,30 @@
 #' controlling the false discovery proportion.
 #'
 #' @export
-frx_holm <- function(p_value, d = 0, .return = "p", alpha = NULL) {
+frx_holm <- function(p, d = 0, alpha = NULL, output = "p") {
 
-  # check arguments
-  .check_p_value()
+  # check input
+  .check_p()
   .check_d()
-  .check_return()
+  .check_alpha()
+  .check_output()
 
   # get adjustment factors
-  m <- length(p_value)
+  m <- length(p)
   j <- seq_len(m)
   dj <- floor(d * j)
-  o <- order(p_value)
+  o <- order(p)
   ro <- order(o)
   a <- (m - j + dj + 1) / (dj + 1)
 
   # output
-  p <- pmin(1, cummax(a * p_value[o]))[ro]
+  p_adj <- pmin(1, cummax(a * p[o]))[ro]
   if (!is.null(alpha)) {
-    return((alpha * p_value) / p)
+    return((alpha * p) / p_adj)
   } else {
-    if (.return == "a") {
-      return(p / p_value)
+    if (output == "a") {
+      return(p_adj / p)
     }
   }
-  p
+  p_adj
 }

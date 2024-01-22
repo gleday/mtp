@@ -4,25 +4,25 @@
 \alias{frx_hoch}
 \title{FRX control using modified Hochberg (step-down)}
 \usage{
-frx_hoch(p_value, d = 0, .return = "p", alpha = NULL)
+frx_hoch(p, d = 0, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p_value}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed P-values.}
 
 \item{d}{\link{numeric} scalar. Exceedance level (between 0 and 1).}
 
-\item{.return}{\link{character} scalar. Return adjusted P-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
-
 \item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRX(d)}}
-level (between 0 and 1). Overrides \code{.return} and
+level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
+
+\item{output}{\link{character} scalar. Return adjusted P-values
+(\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{.return = "p"},
-\item adjustment factors when \code{.return = "a"},
+\item adjusted P-values when \code{output = "p"},
+\item adjustment factors when \code{output = "a"},
 \item adjusted critical values when \code{alpha} is provided.
 }
 }
