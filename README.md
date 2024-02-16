@@ -4,11 +4,11 @@ various forms of statistical control on the
 occurrence of Type I errors (incorrect rejections)
 when conducting multiple statistical hypothesis tests.
 
-mtp offers to use different error criteria
-(familywise error rate, false rejection exceedance, ...)
-to assess the likelihood of committing Type I errors,
-as well as different methods (step-down, step-up)
-to adjust the significance level of each test.
+The package offers to use different error
+criteria (FWER, FRX) to assess the likelihood
+of committing Type I errors, as well as different
+methods (step-down, step-up) to adjust the
+significance level of each test.
 
 # Installation
 
