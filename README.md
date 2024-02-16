@@ -10,21 +10,21 @@ to assess the likelihood of committing Type I errors,
 as well as different methods (step-down, step-up)
 to adjust the significance level of each test.
 
-## Installation
+# Installation
 
 To install **mtp** from R:
 
 ```R
-# Install/load R package devtools
+# install/load R package devtools
 install.packages("devtools")
 library(devtools)
 
-# Install/load R package beam from github
+# install/load R package mtp from github
 install_github("gleday/mtp")
 library(mtp)
 ```
 
-## Why using multiple testing procedures?
+# Why using multiple testing procedures?
 When performing a single statistical test,
 the probability of committing an error when rejecting
 the null hypothesis, is bounded by $\alpha$,
@@ -40,11 +40,11 @@ statistical control on the occurrence of
 Type I errors by capping the likelihood of
 committing errors (in the sense of a criterion).
 This is achieved by adjusting the significance
-level of each test (possibly using different methods).
+level of each test (different methods are available).
 
-The benefits of multiple testing procedures include:
-- improved balance between incorrectly and
+Overall, multiple testing procedures offer:
+- to improve the balance between incorrectly and
 correctly rejected null hypotheses (i.e. between
 Type I errors and statistical power).
-- offer statistical guarantees regarding the extent of
+- statistical guarantees regarding the extent of
 incorrectly rejected null hypotheses
