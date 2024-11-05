@@ -10,8 +10,7 @@
 #' @details
 #' The generalized adaptive Bonferroni procedure
 #' (Wang, 2017; Definition 2.1)
-#' consists in using the decision procedure
-#' described in [mtp-package] with:
+#' yields:
 #'
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
@@ -37,10 +36,6 @@
 #'  }
 #' }
 #'
-#' The generalized adaptive Bonferroni procedure guarantees
-#' that \eqn{\text{FWER(k)} \leq \alpha} without
-#' assumptions on the dependence of P-values.
-#'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
 #' @importFrom "purrr" "map_dfc" "map_lgl"
@@ -64,9 +59,10 @@
 #' Statistics-Simulation and Computation, 46(10), 8140-8151.
 #'
 #' @export
-fwer_abon <- function(p, k = 1, lambda = 0.5, alpha = NULL, output = "p") {
+fwer_abon <- function(p, k = 0, lambda = 0.5, alpha = NULL, output = "p") {
 
   # check arguments
+  m <- length(p)
   .check_p()
   .check_k()
   .check_lambda()
@@ -74,8 +70,7 @@ fwer_abon <- function(p, k = 1, lambda = 0.5, alpha = NULL, output = "p") {
   .check_output()
 
   # get adjustment factor
-  m <- length(p)
-  a <- m0(p = p, lambda = lambda) / k
+  a <- m0(p = p, lambda = lambda) / (k + 1)
 
   # output
   p_adj <- pmin(a * p, 1)

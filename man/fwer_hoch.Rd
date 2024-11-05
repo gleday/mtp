@@ -4,7 +4,7 @@
 \alias{fwer_hoch}
 \title{FWER control using Hochberg (step-up)}
 \usage{
-fwer_hoch(p, k = 1, alpha = NULL, output = "p")
+fwer_hoch(p, k = 0, alpha = NULL, output = "p")
 }
 \arguments{
 \item{p}{\link{numeric} vector. Observed P-values.}
@@ -33,13 +33,12 @@ Hochberg's step-up procedure
 \details{
 The generalized Holm procedure
 (Sarkar, 2008; Remark 4.2)
-consists in using the decision procedure
-described in \link{mtp-package} using:
+yields:
 \itemize{
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+  a_j = \frac{m - \max\left(j - k - 1, 0\right)}{k + 1},
   \ \text{for}\ j=1, \ldots, m.
  }
 }
@@ -61,14 +60,11 @@ described in \link{mtp-package} using:
 } }
 }
 
-The generalized Hochberg procedure guarantees
-that \eqn{\text{FWER(k)} \leq \alpha} under some
-assumptions on the dependence of P-values.
-
 The generalized Hochberg procedure uses the same
 adjustment factors as the generalized Holm procedure
 (see \code{\link[=fwer_holm]{fwer_holm()}}) but yields a different
-set of rejected hypotheses.
+set of rejected hypotheses, as it is a step-up rather
+than a step-down procedure.
 }
 \references{
 Hochberg, Y. (1988). A sharper Bonferroni procedure for

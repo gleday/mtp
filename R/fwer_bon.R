@@ -15,8 +15,7 @@
 #' @details
 #' The generalized Bonferroni procedure
 #' (Lehmann & Romano, 2005; Theorem 2.1)
-#' consists in using the decision procedure
-#' described in [mtp-package] with:
+#' yields:
 #'
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
@@ -40,10 +39,6 @@
 #'  }
 #' }
 #'
-#' The generalized Bonferroni procedure guarantees
-#' that \eqn{\text{FWER(k)} \leq \alpha} without
-#' assumptions on the dependence of P-values.
-#'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
 #' @importFrom "purrr" "map_lgl"
@@ -66,16 +61,16 @@
 #' the familywise error rate. The Annals of Statistics, 33(3), 1138-1154.
 #'
 #' @export
-fwer_bon <- function(p, k = 1, alpha = NULL, output = "p") {
+fwer_bon <- function(p, k = 0, alpha = NULL, output = "p") {
 
   # check input
+  m <- length(p)
   .check_p()
   .check_k()
   .check_alpha()
   .check_output()
 
   # get adjustment factor
-  m <- length(p)
   a <- m / k
 
   # output

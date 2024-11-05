@@ -4,7 +4,7 @@
 \alias{fwer_abon}
 \title{FWER control using adaptive Bonferroni (single-step)}
 \usage{
-fwer_abon(p, k = 1, lambda = 0.5, alpha = NULL, output = "p")
+fwer_abon(p, k = 0, lambda = 0.5, alpha = NULL, output = "p")
 }
 \arguments{
 \item{p}{\link{numeric} vector. Observed P-values.}
@@ -36,8 +36,7 @@ adaptive Bonferroni's procedure (Wang, 2017)
 \details{
 The generalized adaptive Bonferroni procedure
 (Wang, 2017; Definition 2.1)
-consists in using the decision procedure
-described in \link{mtp-package} with:
+yields:
 \itemize{
 \item the adjustment factor:
 \eqn{\qquad\quad
@@ -61,10 +60,6 @@ number \eqn{m_0} of true null hypotheses (see \code{\link[=m0]{m0()}}).
  }
 }
 }
-
-The generalized adaptive Bonferroni procedure guarantees
-that \eqn{\text{FWER(k)} \leq \alpha} without
-assumptions on the dependence of P-values.
 }
 \references{
 Storey, J. D. (2002). A direct approach to false discovery rates.

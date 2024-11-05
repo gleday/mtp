@@ -17,5 +17,5 @@ Description: Functions to control type I errors when
 License: GPL-3
 Imports: assertthat, dplyr, purrr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.2
 Encoding: UTF-8

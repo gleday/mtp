@@ -4,7 +4,7 @@
 \alias{fwer_holm}
 \title{FWER control using Holm (step-down)}
 \usage{
-fwer_holm(p, k = 1, alpha = NULL, output = "p")
+fwer_holm(p, k = 0, alpha = NULL, output = "p")
 }
 \arguments{
 \item{p}{\link{numeric} vector. Observed P-values.}
@@ -33,13 +33,12 @@ Holm's step-down procedure
 \details{
 The generalized Holm procedure
 (Lehmann & Romano, 2005; Theorem 2.2)
-consists in using the decision procedure
-described in \link{mtp-package} with:
+yields:
 \itemize{
 \item the adjustment factors:
 \eqn{\qquad\quad
  \displaystyle{
-  a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+  a_j = \frac{m - \max\left(j - k - 1, 0\right)}{k + 1},
   \ \text{for}\ j=1, \ldots, m.
  }
 }
@@ -60,10 +59,6 @@ described in \link{mtp-package} with:
   \ \text{for}\ j=1, \ldots, m.
 } }
 }
-
-The generalized Holm procedure guarantees
-that \eqn{\text{FWER(k)} \leq \alpha} without
-assumptions on the dependence of P-values.
 }
 \references{
 Holm, S. (1979). A simple sequentially rejective

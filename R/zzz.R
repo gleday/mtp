@@ -11,15 +11,19 @@
 
 .check_k <- function() {
   k <- get("k", envir = parent.frame())
-  assert_that(is.count(k))
+  assert_that(is.count(k + 1))
   assert_that(is.finite(k))
+  m <- get("m", envir = parent.frame())
+  assert_that(k >= 0)
+  assert_that(k < m)
 }
 
 .check_d <- function() {
   d <- get("d", envir = parent.frame())
   assert_that(is.number(d))
   assert_that(is.finite(d))
-  assert_that(between(d, 0, 1))
+  assert_that(d >= 0)
+  assert_that(d < 1)
 }
 
 .check_lambda <- function() {

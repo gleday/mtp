@@ -28,8 +28,8 @@
 #' * the \strong{familywise error rate} (FWER),
 #' defined as the probability that the number of
 #' false rejections equals or exceeds a predefined
-#' number \eqn{1 \leq \text{k} \leq \text{m}}:
-#' \deqn{\text{FWER(k)} = \text{Pr}(\text{V} \geq \text{k}).}
+#' number \eqn{0 \leq \text{k} < \text{m}}:
+#' \deqn{\text{FWER(k)} = \text{Pr}(\text{V} < \text{k}).}
 #' See functions [fwer_bon()], [fwer_holm()],
 #' [fwer_hoch()] and [fwer_abon()].
 #' \cr\cr
@@ -37,7 +37,7 @@
 #' * the \strong{false rejection exceedance} (FRX),
 #' defined as the probability that the proportion
 #' of false rejections among all rejected hypotheses
-#' exceeds a predefined proportion \eqn{0 \leq \text{d} \leq 1}:
+#' exceeds a predefined proportion \eqn{0 \leq \text{d} < 1}:
 #' \deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 #' See functions [frx_holm()] and [frx_hoch()].
 #'
@@ -101,7 +101,6 @@
 #'
 #' * reject hypotheses with observed P-values smaller than or equal to
 #' the \strong{adjusted critical values}, i.e.:
-#' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}:
 #' \deqn{
 #'  \displaystyle{
 #'  \text{reject}\ \ H_{(j)} \qquad
@@ -109,14 +108,6 @@
 #'   \qquad\text{for}\ j=1, \ldots, m.
 #'  }
 #' }
-#'
-#' Some adjustments produce
-#' a different adjusted critical value for
-#' each null hypothesis, while others
-#' yield a single adjusted critical value
-#' for all hypotheses
-#' (\eqn{\widetilde{\alpha}_{1} = \ldots =
-#' \widetilde{\alpha}_{m}}).
 #'
 #' @section Types of multiple testing procedures:
 #'

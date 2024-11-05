@@ -9,13 +9,12 @@
 #' @details
 #' The generalized Holm procedure
 #' (Sarkar, 2008; Remark 4.2)
-#' consists in using the decision procedure
-#' described in [mtp-package] using:
+#' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+#'   a_j = \frac{m - \max\left(j - k - 1, 0\right)}{k + 1},
 #'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
@@ -38,14 +37,11 @@
 #'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
-#' The generalized Hochberg procedure guarantees
-#' that \eqn{\text{FWER(k)} \leq \alpha} under some
-#' assumptions on the dependence of P-values.
-#'
 #' The generalized Hochberg procedure uses the same
 #' adjustment factors as the generalized Holm procedure
 #' (see [fwer_holm()]) but yields a different
-#' set of rejected hypotheses.
+#' set of rejected hypotheses, as it is a step-up rather
+#' than a step-down procedure.
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
@@ -67,20 +63,20 @@
 #' The Annals of Statistics, 36(1), 337-363.
 #'
 #' @export
-fwer_hoch <- function(p, k = 1, alpha = NULL, output = "p") {
+fwer_hoch <- function(p, k = 0, alpha = NULL, output = "p") {
 
   # check input
+  m <- length(p)
   .check_p()
   .check_k()
   .check_alpha()
   .check_output()
 
   # get adjustment factors
-  m <- length(p)
   j <- m:1L
   o <- order(p)[j]
   ro <- order(o)
-  a <- (m - pmax(0, j - k)) / k
+  a <- (m - pmax(0, j - k - 1)) / (k + 1)
 
   # output
   p_adj <- pmin(cummin(a * p[o]), 1)[ro]

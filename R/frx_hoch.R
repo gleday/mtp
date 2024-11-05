@@ -1,4 +1,4 @@
-#' FRX control using modified Hochberg (step-down)
+#' FRX control using modified Hochberg (step-up)
 #'
 #' @inheritParams frx_holm
 #'
@@ -10,8 +10,7 @@
 #' @details
 #' The modified Holm procedure
 #' (Guo et al., 2014; Theorem 3.1)
-#' consists in using the decision procedure
-#' described in [mtp-package] using:
+#' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
@@ -44,15 +43,11 @@
 #' the floor function returning the
 #' largest integer that is smaller or equal to \eqn{x}.
 #'
-#' The modified Hochberg procedure guarantees
-#' that \eqn{\text{FRX(d)} \leq \alpha} under some
-#' assumptions on the dependence of P-values
-#' (Simes inequality).
-#'
 #' The modified Hochberg procedure uses the same
 #' adjustment factors as the modified Holm procedure
 #' (see [frx_holm()]) but yields a different
-#' set of rejected hypotheses.
+#' set of rejected hypotheses, as it is a step-up rather
+#' than a step-down procedure.
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"

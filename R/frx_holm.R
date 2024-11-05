@@ -13,8 +13,7 @@
 #' @details
 #' The modified Holm procedure
 #' (Lehmann & Romano, 2005; Theorem 3.1)
-#' consists in using the decision procedure
-#' described in [mtp-package] using:
+#' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
@@ -46,11 +45,6 @@
 #' Here, \eqn{\left\lfloor x \right\rfloor} denotes
 #' the floor function returning the
 #' largest integer that is smaller or equal to \eqn{x}.
-#'
-#' The modified Holm procedure guarantees
-#' that \eqn{\text{FRX(d)} \leq \alpha} with some
-#' assumptions on the dependence of P-values
-#' (Simes inequality).
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"

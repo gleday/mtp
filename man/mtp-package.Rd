@@ -38,15 +38,15 @@ to assess the likelihood of committing Type I errors:
 \item the \strong{familywise error rate} (FWER),
 defined as the probability that the number of
 false rejections equals or exceeds a predefined
-number \eqn{1 \leq \text{k} \leq \text{m}}:
-\deqn{\text{FWER(k)} = \text{Pr}(\text{V} \geq \text{k}).}
+number \eqn{0 \leq \text{k} < \text{m}}:
+\deqn{\text{FWER(k)} = \text{Pr}(\text{V} < \text{k}).}
 See functions \code{\link[=fwer_bon]{fwer_bon()}}, \code{\link[=fwer_holm]{fwer_holm()}},
 \code{\link[=fwer_hoch]{fwer_hoch()}} and \code{\link[=fwer_abon]{fwer_abon()}}.
 \cr\cr
 \item the \strong{false rejection exceedance} (FRX),
 defined as the probability that the proportion
 of false rejections among all rejected hypotheses
-exceeds a predefined proportion \eqn{0 \leq \text{d} \leq 1}:
+exceeds a predefined proportion \eqn{0 \leq \text{d} < 1}:
 \deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 See functions \code{\link[=frx_holm]{frx_holm()}} and \code{\link[=frx_hoch]{frx_hoch()}}.
 \item the \strong{per family error rate} (PFER),
@@ -114,7 +114,6 @@ equal to the critical value \eqn{\alpha}, i.e.:
 }
 \item reject hypotheses with observed P-values smaller than or equal to
 the \strong{adjusted critical values}, i.e.:
-\eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}:
 \deqn{
  \displaystyle{
  \text{reject}\ \ H_{(j)} \qquad
@@ -123,14 +122,6 @@ the \strong{adjusted critical values}, i.e.:
  }
 }
 }
-
-Some adjustments produce
-a different adjusted critical value for
-each null hypothesis, while others
-yield a single adjusted critical value
-for all hypotheses
-(\eqn{\widetilde{\alpha}_{1} = \ldots =
-\widetilde{\alpha}_{m}}).
 }
 
 \section{Types of multiple testing procedures}{

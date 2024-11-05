@@ -4,7 +4,7 @@
 \alias{fwer_bon}
 \title{FWER control using Bonferroni (single-step)}
 \usage{
-fwer_bon(p, k = 1, alpha = NULL, output = "p")
+fwer_bon(p, k = 0, alpha = NULL, output = "p")
 }
 \arguments{
 \item{p}{\link{numeric} vector. Observed P-values.}
@@ -33,8 +33,7 @@ Bonferroni's single-step procedure
 \details{
 The generalized Bonferroni procedure
 (Lehmann & Romano, 2005; Theorem 2.1)
-consists in using the decision procedure
-described in \link{mtp-package} with:
+yields:
 \itemize{
 \item the adjustment factor:
 \eqn{\qquad\quad
@@ -56,10 +55,6 @@ described in \link{mtp-package} with:
  }
 }
 }
-
-The generalized Bonferroni procedure guarantees
-that \eqn{\text{FWER(k)} \leq \alpha} without
-assumptions on the dependence of P-values.
 }
 \references{
 Bonferroni, C. (1936). Teoria statistica delle classi e

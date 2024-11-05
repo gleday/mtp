@@ -9,13 +9,12 @@
 #' @details
 #' The generalized Holm procedure
 #' (Lehmann & Romano, 2005; Theorem 2.2)
-#' consists in using the decision procedure
-#' described in [mtp-package] with:
+#' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{m - \max\left(j - k, 0\right)}{k},
+#'   a_j = \frac{m - \max\left(j - k - 1, 0\right)}{k + 1},
 #'   \ \text{for}\ j=1, \ldots, m.
 #'  }
 #' }
@@ -38,10 +37,6 @@
 #'   \ \text{for}\ j=1, \ldots, m.
 #' } }
 #'
-#' The generalized Holm procedure guarantees
-#' that \eqn{\text{FWER(k)} \leq \alpha} without
-#' assumptions on the dependence of P-values.
-#'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
 #' @importFrom "purrr" "map_lgl"
@@ -63,20 +58,20 @@
 #' The Annals of Statistics, 33(3), 1138-1154.
 #'
 #' @export
-fwer_holm <- function(p, k = 1, alpha = NULL, output = "p") {
+fwer_holm <- function(p, k = 0, alpha = NULL, output = "p") {
 
   # check input
+  m <- length(p)
   .check_p()
   .check_k()
   .check_alpha()
   .check_output()
 
   # get adjustment factors
-  m <- length(p)
   j <- seq_len(m)
   o <- order(p)
   ro <- order(o)
-  a <- (m - pmax(0, j - k)) / k
+  a <- (m - pmax(0, j - k - 1)) / (k + 1)
 
   # output
   p_adj <- pmin(cummax(a * p[o]), 1)[ro]

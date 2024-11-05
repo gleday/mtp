@@ -2,7 +2,7 @@
 % Please edit documentation in R/frx_hoch.R
 \name{frx_hoch}
 \alias{frx_hoch}
-\title{FRX control using modified Hochberg (step-down)}
+\title{FRX control using modified Hochberg (step-up)}
 \usage{
 frx_hoch(p, d = 0, alpha = NULL, output = "p")
 }
@@ -34,8 +34,7 @@ Guo et al., 2014)
 \details{
 The modified Holm procedure
 (Guo et al., 2014; Theorem 3.1)
-consists in using the decision procedure
-described in \link{mtp-package} using:
+yields:
 \itemize{
 \item the adjustment factors:
 \eqn{\qquad\quad
@@ -67,15 +66,11 @@ Here, \eqn{\left\lfloor x \right\rfloor} denotes
 the floor function returning the
 largest integer that is smaller or equal to \eqn{x}.
 
-The modified Hochberg procedure guarantees
-that \eqn{\text{FRX(d)} \leq \alpha} under some
-assumptions on the dependence of P-values
-(Simes inequality).
-
 The modified Hochberg procedure uses the same
 adjustment factors as the modified Holm procedure
 (see \code{\link[=frx_holm]{frx_holm()}}) but yields a different
-set of rejected hypotheses.
+set of rejected hypotheses, as it is a step-up rather
+than a step-down procedure.
 }
 \references{
 Sarkar, S. K. (2008). Generalizing Simes’ test and
