@@ -24,7 +24,7 @@
 #' where \eqn{\widehat{m}_0} is Storey's estimator of the
 #' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
-#' * the adjusted P-values:
+#' * the adjusted p-values:
 #' \eqn{\qquad\quad
 #' \displaystyle{
 #'   \begin{cases}
@@ -44,7 +44,7 @@
 #'
 #' The BH procedure guarantees
 #' that \eqn{\text{FRR} \leq \alpha} under some
-#' assumptions on the dependence of P-values
+#' assumptions on the dependence of p-values
 #' (Simes inequality).
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
@@ -53,7 +53,7 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `output = "p"`,
+#' * adjusted p-values when `output = "p"`,
 #' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'

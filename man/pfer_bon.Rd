@@ -7,19 +7,19 @@
 pfer_bon(p, gamma = NULL, output = "p")
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
 \item{gamma}{\link{numeric} scalar. Target \eqn{\text{PFER}}
 level (between 1 and m). Overrides \code{output} and
 return adjusted critical values.}
 
-\item{output}{\link{character} scalar. Return adjusted P-values
+\item{output}{\link{character} scalar. Return adjusted p-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{output = "p"},
+\item adjusted p-values when \code{output = "p"},
 \item adjustment factors when \code{output = "a"},
 \item adjusted critical values when \code{gamma} is provided.
 }
@@ -39,7 +39,7 @@ described in \link{mtp-package} with:
   a = m
  }.
 }
-\item the adjusted P-values:
+\item the adjusted p-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
@@ -56,7 +56,7 @@ described in \link{mtp-package} with:
 
 The Bonferroni procedure guarantees
 that \eqn{\text{PFER} \leq \gamma} without
-assumptions on the dependence of P-values.
+assumptions on the dependence of p-values.
 }
 \references{
 Tukey, J. W. (1953). The problem of multiple comparison.

@@ -7,9 +7,9 @@
 fwer_abon(p, k = 0, lambda = 0.5, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
-\item{k}{\link{numeric} scalar. Exceedance level (positive integer).}
+\item{k}{\link{numeric} scalar. Exceedance level (integer).}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}
@@ -18,7 +18,7 @@ more value(s) for the tuning parameter.}
 level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
 
-\item{output}{\link{character} scalar. Return adjusted P-values
+\item{output}{\link{character} scalar. Return adjusted p-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{

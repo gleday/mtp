@@ -17,13 +17,13 @@ conducting multiple statistical tests.
 
 Testing of \eqn{m} null hypotheses
 \eqn{H_{1}, \ldots, H_{m}} with
-observed P-values \eqn{p_{1}, \ldots, p_{m}}.
+observed p-values \eqn{p_{1}, \ldots, p_{m}}.
 }
 
 \section{Notation}{
 
 
-\eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered P-values.\cr
+\eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered p-values.\cr
 \eqn{H_{(1)}, \ldots, H_{(m)}}: ordered null hypotheses.\cr
 \eqn{\text{R}}: number of rejected null hypotheses.\cr
 \eqn{\text{V}}: number of false rejections.
@@ -32,21 +32,21 @@ observed P-values \eqn{p_{1}, \ldots, p_{m}}.
 \section{Type I error criteria}{
 
 
-\code{mtp} allows to use the following criteria
-to assess the likelihood of committing Type I errors:
+\code{mtp} allows to assess and control the occurrence of
+Type I errors using:
 \itemize{
 \item the \strong{familywise error rate} (FWER),
 defined as the probability that the number of
-false rejections equals or exceeds a predefined
-number \eqn{0 \leq \text{k} < \text{m}}:
-\deqn{\text{FWER(k)} = \text{Pr}(\text{V} < \text{k}).}
+false rejections exceeds a predefined
+number \eqn{k}, with \eqn{0 \leq \text{k} < \text{m}}:
+\deqn{\text{FWER(k)} = \text{Pr}(\text{V} > \text{k}).}
 See functions \code{\link[=fwer_bon]{fwer_bon()}}, \code{\link[=fwer_holm]{fwer_holm()}},
 \code{\link[=fwer_hoch]{fwer_hoch()}} and \code{\link[=fwer_abon]{fwer_abon()}}.
 \cr\cr
 \item the \strong{false rejection exceedance} (FRX),
 defined as the probability that the proportion
 of false rejections among all rejected hypotheses
-exceeds a predefined proportion \eqn{0 \leq \text{d} < 1}:
+exceeds a predefined proportion \eqn{d}, with\eqn{0 \leq \text{d} < 1}:
 \deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 See functions \code{\link[=frx_holm]{frx_holm()}} and \code{\link[=frx_hoch]{frx_hoch()}}.
 \item the \strong{per family error rate} (PFER),
@@ -60,8 +60,8 @@ of false rejections among all rejected hypotheses:
 See functions \code{\link[=frr_bh]{frr_bh()}} and \code{\link[=frr_abh]{frr_abh()}}.
 }
 
-Note: the term "discovery" commonly
-adopted in literature is replaced by the
+Note that the term "discovery" commonly
+adopted in literature is here replaced by the
 more neutral term "rejection".
 }
 
@@ -81,7 +81,7 @@ an \strong{adjustment factor}.
 The functions in \code{mtp} perform these adjustments
 and allow to obtain:
 \itemize{
-\item the \strong{adjusted P-values}
+\item the \strong{adjusted p-values}
 \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
 when the argument \code{output = "p"}.
 \item the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
@@ -91,8 +91,8 @@ when the argument \code{output = "a"}.
 when the argument \code{alpha} is provided.
 }
 
-Adjustments in \code{mtp} preserve the ordering of P-values
-and ensure that the adjusted P-values and critical values
+Adjustments in \code{mtp} preserve the ordering of p-values
+and ensure that the adjusted p-values and critical values
 are comprised between 0 and 1.
 }
 
@@ -103,7 +103,7 @@ After adjustment, the decision procedure
 consists in applying one of the following
 (equivalent) rules:
 \itemize{
-\item reject hypotheses with \strong{adjusted P-values} smaller than or
+\item reject hypotheses with \strong{adjusted p-values} smaller than or
 equal to the critical value \eqn{\alpha}, i.e.:
 \deqn{
  \displaystyle{
@@ -112,7 +112,7 @@ equal to the critical value \eqn{\alpha}, i.e.:
   \qquad\text{for}\ j=1, \ldots, m.
  }
 }
-\item reject hypotheses with observed P-values smaller than or equal to
+\item reject hypotheses with observed p-values smaller than or equal to
 the \strong{adjusted critical values}, i.e.:
 \deqn{
  \displaystyle{
@@ -173,7 +173,7 @@ familywise error rate control. Communications in
 Statistics-Simulation and Computation, 46(10), 8140-8151.
 }
 \author{
-\strong{Maintainer}: Gwenaël G.R. Leday \email{gwenael.leday@gmail.com} (\href{https://orcid.org/0000-0002-3753-4060}{ORCID})
+\strong{Maintainer}: Gwenaël G.R. Leday \email{gwenael.leday@proton.me} (\href{https://orcid.org/0000-0002-3753-4060}{ORCID})
 
 }
 \keyword{internal}

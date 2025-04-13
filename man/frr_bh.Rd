@@ -7,19 +7,19 @@
 frr_bh(p, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
 \item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRR}}
 level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
 
-\item{output}{\link{character} scalar. Return adjusted P-values
+\item{output}{\link{character} scalar. Return adjusted p-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{ouput = "p"},
+\item adjusted p-values when \code{ouput = "p"},
 \item adjustment factors when \code{ouput = "a"},
 \item adjusted critical values when \code{alpha} is provided.
 }
@@ -41,7 +41,7 @@ described in \link{mtp-package} using:
   \ \text{for}\ j=1, \ldots, m.
  }
 }
-\item the adjusted P-values:
+\item the adjusted p-values:
 \eqn{\qquad\quad
 \displaystyle{
   \begin{cases}
@@ -61,7 +61,7 @@ described in \link{mtp-package} using:
 
 The BH procedure guarantees
 that \eqn{\text{FRR} \leq \alpha} under some
-assumptions on the dependence of P-values
+assumptions on the dependence of p-values
 (Simes inequality).
 }
 \references{

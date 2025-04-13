@@ -11,25 +11,25 @@
 #'
 #' Testing of \eqn{m} null hypotheses
 #' \eqn{H_{1}, \ldots, H_{m}} with
-#' observed P-values \eqn{p_{1}, \ldots, p_{m}}.
+#' observed p-values \eqn{p_{1}, \ldots, p_{m}}.
 #'
 #' @section Notation:
 #'
-#' \eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered P-values.\cr
+#' \eqn{p_{(1)} \leq \ldots \leq p_{(m)}}: ordered p-values.\cr
 #' \eqn{H_{(1)}, \ldots, H_{(m)}}: ordered null hypotheses.\cr
 #' \eqn{\text{R}}: number of rejected null hypotheses.\cr
 #' \eqn{\text{V}}: number of false rejections.
 #'
 #' @section Type I error criteria:
 #'
-#' `mtp` allows to use the following criteria
-#' to assess the likelihood of committing Type I errors:
+#' `mtp` allows to assess and control the occurrence of
+#' Type I errors using:
 #'
 #' * the \strong{familywise error rate} (FWER),
 #' defined as the probability that the number of
-#' false rejections equals or exceeds a predefined
-#' number \eqn{0 \leq \text{k} < \text{m}}:
-#' \deqn{\text{FWER(k)} = \text{Pr}(\text{V} < \text{k}).}
+#' false rejections exceeds a predefined
+#' number \eqn{k}, with \eqn{0 \leq \text{k} < \text{m}}:
+#' \deqn{\text{FWER(k)} = \text{Pr}(\text{V} > \text{k}).}
 #' See functions [fwer_bon()], [fwer_holm()],
 #' [fwer_hoch()] and [fwer_abon()].
 #' \cr\cr
@@ -37,7 +37,7 @@
 #' * the \strong{false rejection exceedance} (FRX),
 #' defined as the probability that the proportion
 #' of false rejections among all rejected hypotheses
-#' exceeds a predefined proportion \eqn{0 \leq \text{d} < 1}:
+#' exceeds a predefined proportion \eqn{d}, with\eqn{0 \leq \text{d} < 1}:
 #' \deqn{\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).}
 #' See functions [frx_holm()] and [frx_hoch()].
 #'
@@ -52,8 +52,8 @@
 #' \deqn{\text{FRR} = \text{E}(\text{V}/\text{R}).}
 #' See functions [frr_bh()] and [frr_abh()].
 #'
-#' Note: the term "discovery" commonly
-#' adopted in literature is replaced by the
+#' Note that the term "discovery" commonly
+#' adopted in literature is here replaced by the
 #' more neutral term "rejection".
 #'
 #' @section Adjustment:
@@ -70,7 +70,7 @@
 #'
 #' The functions in `mtp` perform these adjustments
 #' and allow to obtain:
-#' * the \strong{adjusted P-values}
+#' * the \strong{adjusted p-values}
 #' \eqn{\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}}.
 #' when the argument `output = "p"`.
 #' * the \strong{adjustment factors} \eqn{a_{1}, \ldots, a_{m}}
@@ -79,8 +79,8 @@
 #' \eqn{\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}}
 #' when the argument `alpha` is provided.
 #'
-#' Adjustments in `mtp` preserve the ordering of P-values
-#' and ensure that the adjusted P-values and critical values
+#' Adjustments in `mtp` preserve the ordering of p-values
+#' and ensure that the adjusted p-values and critical values
 #' are comprised between 0 and 1.
 #'
 #' @section Decision procedure:
@@ -89,7 +89,7 @@
 #' consists in applying one of the following
 #' (equivalent) rules:
 #'
-#' * reject hypotheses with \strong{adjusted P-values} smaller than or
+#' * reject hypotheses with \strong{adjusted p-values} smaller than or
 #' equal to the critical value \eqn{\alpha}, i.e.:
 #' \deqn{
 #'  \displaystyle{
@@ -99,7 +99,7 @@
 #'  }
 #' }
 #'
-#' * reject hypotheses with observed P-values smaller than or equal to
+#' * reject hypotheses with observed p-values smaller than or equal to
 #' the \strong{adjusted critical values}, i.e.:
 #' \deqn{
 #'  \displaystyle{

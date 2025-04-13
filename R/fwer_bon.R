@@ -1,11 +1,11 @@
 #' FWER control using Bonferroni (single-step)
 #'
-#' @param p [numeric] vector. Observed P-values.
-#' @param k [numeric] scalar. Exceedance level (positive integer).
+#' @param p [numeric] vector. Observed p-values.
+#' @param k [numeric] scalar. Exceedance level (integer).
 #' @param alpha [numeric] scalar. Target \eqn{\text{FWER(k)}}
 #' level (between 0 and 1). Overrides `output` and
 #' return adjusted critical values.
-#' @param output [character] scalar. Return adjusted P-values
+#' @param output [character] scalar. Return adjusted p-values
 #' (`"p"`) or adjustment factors (`"a"`).
 #'
 #' @description
@@ -20,11 +20,11 @@
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a = \frac{m}{k}
+#'   a = \frac{m}{k + 1}
 #'  }.
 #' }
 #'
-#' * the adjusted P-values:
+#' * the adjusted p-values:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
@@ -45,7 +45,7 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `output = "p"`,
+#' * adjusted p-values when `output = "p"`,
 #' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'
@@ -71,7 +71,7 @@ fwer_bon <- function(p, k = 0, alpha = NULL, output = "p") {
   .check_output()
 
   # get adjustment factor
-  a <- m / k
+  a <- m / (k + 1)
 
   # output
   p_adj <- pmin(a * p, 1)

@@ -24,7 +24,7 @@
 #'  }
 #' }
 #'
-#' * the adjusted P-values:
+#' * the adjusted p-values:
 #' \eqn{\qquad\quad
 #' \displaystyle{
 #'   \begin{cases}
@@ -52,7 +52,7 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `output = "p"`,
+#' * adjusted p-values when `output = "p"`,
 #' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'

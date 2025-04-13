@@ -7,7 +7,7 @@
 pfer_abon(p, lambda = 0.5, gamma = NULL, output = "p")
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}
@@ -16,13 +16,13 @@ more value(s) for the tuning parameter.}
 level (between 1 and m). Overrides \code{output} and
 return adjusted critical values.}
 
-\item{output}{\link{character} scalar. Return adjusted P-values
+\item{output}{\link{character} scalar. Return adjusted p-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{output = "p"},
+\item adjusted p-values when \code{output = "p"},
 \item adjustment factors when \code{output = "a"},
 \item adjusted critical values when \code{gamma} is provided.
 }
@@ -44,7 +44,7 @@ described in \link{mtp-package} with:
 }
 where \eqn{\widehat{m}_0} is Storey's estimator of the
 number \eqn{m_0} of true null hypotheses (see \code{\link[=m0]{m0()}}).
-\item the adjusted P-values:
+\item the adjusted p-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
@@ -61,7 +61,7 @@ number \eqn{m_0} of true null hypotheses (see \code{\link[=m0]{m0()}}).
 
 The adaptive Bonferroni procedure guarantees
 that \eqn{\text{PFER} \leq \gamma} under
-independence of P-values.
+independence of p-values.
 }
 \references{
 Guo, W., Lynch, G., & Romano, J. P. (2018).

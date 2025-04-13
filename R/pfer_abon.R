@@ -21,7 +21,7 @@
 #' where \eqn{\widehat{m}_0} is Storey's estimator of the
 #' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
-#' * the adjusted P-values:
+#' * the adjusted p-values:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
 #'   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
@@ -38,7 +38,7 @@
 #'
 #' The adaptive Bonferroni procedure guarantees
 #' that \eqn{\text{PFER} \leq \gamma} under
-#' independence of P-values.
+#' independence of p-values.
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
 #' @importFrom "dplyr" "between"
@@ -46,7 +46,7 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `output = "p"`,
+#' * adjusted p-values when `output = "p"`,
 #' * adjustment factors when `output = "a"`,
 #' * adjusted critical values when `gamma` is provided.
 #'

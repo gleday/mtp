@@ -23,7 +23,7 @@
 #'  }
 #' }
 #'
-#' * the adjusted P-values:
+#' * the adjusted p-values:
 #' \eqn{\qquad\quad
 #' \displaystyle{
 #'   \begin{cases}
@@ -43,7 +43,7 @@
 #'
 #' The BH procedure guarantees
 #' that \eqn{\text{FRR} \leq \alpha} under some
-#' assumptions on the dependence of P-values
+#' assumptions on the dependence of p-values
 #' (Simes inequality).
 #'
 #' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
@@ -52,7 +52,7 @@
 #'
 #' @return
 #' A [numeric] vector of:
-#' * adjusted P-values when `ouput = "p"`,
+#' * adjusted p-values when `ouput = "p"`,
 #' * adjustment factors when `ouput = "a"`,
 #' * adjusted critical values when `alpha` is provided.
 #'

@@ -7,21 +7,21 @@
 fwer_bon(p, k = 0, alpha = NULL, output = "p")
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
-\item{k}{\link{numeric} scalar. Exceedance level (positive integer).}
+\item{k}{\link{numeric} scalar. Exceedance level (integer).}
 
 \item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
 level (between 0 and 1). Overrides \code{output} and
 return adjusted critical values.}
 
-\item{output}{\link{character} scalar. Return adjusted P-values
+\item{output}{\link{character} scalar. Return adjusted p-values
 (\code{"p"}) or adjustment factors (\code{"a"}).}
 }
 \value{
 A \link{numeric} vector of:
 \itemize{
-\item adjusted P-values when \code{output = "p"},
+\item adjusted p-values when \code{output = "p"},
 \item adjustment factors when \code{output = "a"},
 \item adjusted critical values when \code{alpha} is provided.
 }
@@ -38,10 +38,10 @@ yields:
 \item the adjustment factor:
 \eqn{\qquad\quad
  \displaystyle{
-  a = \frac{m}{k}
+  a = \frac{m}{k + 1}
  }.
 }
-\item the adjusted P-values:
+\item the adjusted p-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),

@@ -10,7 +10,7 @@ m0(p, lambda = 0.5)
 pi0(p, lambda = 0.5)
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed P-values.}
+\item{p}{\link{numeric} vector. Observed p-values.}
 
 \item{lambda}{\link{numeric} vector containing one or
 more value(s) for the tuning parameter.}
