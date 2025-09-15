@@ -1,7 +1,7 @@
 Package: mtp
 Type: Package
 Title: mutliple testing procedures
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: person(
     given = "Gwenaël G.R.",
     family = "Leday",
@@ -9,12 +9,18 @@ Authors@R: person(
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-3753-4060")
     )
-Description: Control type I errors when testing multiple
-    hypotheses using different error criteria (FWER, FRX)
-    and methods (step-down, step-up).
+Description: Procedures to control type I errors in
+    multiple hypothesis testing using various error
+    criteria (FWER, FRX, FRR and PFER) and
+    methods (one-step, step-down, step-up).
 License: GPL-3
-Imports: assertthat, dplyr, purrr
+Imports: assertthat, rlang, purrr, tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 Language: en-GB
+Suggests: 
+    knitr,
+    rmarkdown,
+    kableExtra
+VignetteBuilder: knitr

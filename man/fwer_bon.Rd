@@ -4,57 +4,106 @@
 \alias{fwer_bon}
 \title{FWER control using Bonferroni (single-step)}
 \usage{
-fwer_bon(p, k = 0, alpha = NULL, output = "p")
+fwer_bon(
+  p_values,
+  k = 0,
+  c_value = NULL,
+  output = c("p_values", "c_values", "decisions", "factors")
+)
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed p-values.}
+\item{p_values}{[ \code{numeric()} ]\cr
+A numeric vector of observed p-values.}
 
-\item{k}{\link{numeric} scalar. Exceedance level (integer).}
+\item{k}{[ \code{integer(1)} ]\cr
+A non-negative integer smaller than \code{length(p_values)}
+specifying the exceedance level.}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FWER(k)}}
-level (between 0 and 1). Overrides \code{output} and
-return adjusted critical values.}
+\item{c_value}{[ \code{numeric(1)} ]\cr
+A number between 0 and 1 specifying the critical value for FWER(k).\cr
+Required if \code{output = "c_values"} or \code{output = "decisions"}.}
 
-\item{output}{\link{character} scalar. Return adjusted p-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
+\item{output}{[ \code{character(1)} ]\cr
+The type of value returned by the function:
+\itemize{
+\item \code{"p_values"} returns the adjusted p-values
+\item \code{"c_values"} returns the adjusted critical values
+\item \code{"decisions"} returns the rejection decisions
+(1 = rejected and 0 = non-rejected)
+\item \code{"factors"} returns adjustment factors
+}}
 }
 \value{
-A \link{numeric} vector of:
+[ \code{numeric()} ] \cr \cr
+A numeric vector the same length as \code{p_values} with:
 \itemize{
-\item adjusted p-values when \code{output = "p"},
-\item adjustment factors when \code{output = "a"},
-\item adjusted critical values when \code{alpha} is provided.
+\item the adjusted p-values if \code{output = "p_values"}
+\item the adjusted critical values if \code{output = "c_values"}
+\item the rejection decisions (1 = rejected and 0 = non-rejected)
+if \code{output = "decisions"}
+\item the adjustment factors if \code{output = "factors"}
 }
 }
 \description{
-Control \eqn{\text{FWER(k)}} using generalization of
-Bonferroni's single-step procedure
+Control FWER(k) using generalization of
+Bonferroni's single-step procedure.
 }
 \details{
 The generalized Bonferroni procedure
 (Lehmann & Romano, 2005; Theorem 2.1)
 yields:
 \itemize{
-\item the adjustment factor:
+\item adjustment factor:
 \eqn{\qquad\quad
  \displaystyle{
   a = \frac{m}{k + 1}
  }.
 }
-\item the adjusted p-values:
+\item adjusted p-values:
 \eqn{\qquad\quad
  \displaystyle{
   \widetilde{p}_{j} = \min\left( a\times p_{j}, 1\right),
   \ \text{for}\ j=1, \ldots, m.
  }
 }
-\item the adjusted critical value:
+\item adjusted critical value:
 \eqn{\qquad
  \displaystyle{
   \widetilde{\alpha} = \frac{\alpha}{a}.
  }
 }
 }
+}
+\examples{
+# simulate p-values
+set.seed(123)
+sim <- simulate_p_values(m = 1000, m0 = 900, s1 = 0.1, s2 = 10)
+
+# 1. control FWER(k = 1) at 0.05 using adjusted p-values
+adj_pv <- fwer_bon(sim$p_value, k = 1)
+sum(adj_pv <= 0.05)
+
+# 2. control FWER(k = 1) at 0.05 using adjusted critical values
+adj_cv <- fwer_bon(
+  sim$p_value,
+  k = 1,
+  c_value = 0.05,
+  output = "c_values"
+)
+sum(sim$p_value <= adj_cv)
+
+# 3. control FWER(k = 1) at 0.05 using decision indicator
+ind <- fwer_bon(
+  sim$p_value,
+  k = 1,
+  c_value = 0.05,
+  output = "decisions"
+)
+sum(ind)
+
+# 4. adjustment factors to control FWER(k = 1) at 0.05
+adj_fct <- fwer_bon(sim$p_value, k = 1, output = "factors")
+
 }
 \references{
 Bonferroni, C. (1936). Teoria statistica delle classi e

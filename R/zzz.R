@@ -2,58 +2,84 @@
 # Internal R functions
 #----------------------#
 
-.check_p <- function() {
-  p <- get("p", envir = parent.frame())
-  assert_that(all(map_lgl(p, is.number)))
-  assert_that(all(is.finite(p)))
-  assert_that(all(between(p, 0, 1)))
+.check_p_values <- function() {
+  p <- get("p_values", envir = parent.frame())
+  assert_that(
+    all(map_lgl(p, is.number)),
+    all(is.finite(p)),
+    all(p >= 0),
+    all(p <= 1)
+  )
 }
 
 .check_k <- function() {
   k <- get("k", envir = parent.frame())
-  assert_that(is.count(k + 1))
-  assert_that(is.finite(k))
   m <- get("m", envir = parent.frame())
-  assert_that(k >= 0)
-  assert_that(k < m)
+  assert_that(
+    is.count(k + 1),
+    is.finite(k),
+    k >= 0,
+    k < m
+  )
 }
 
 .check_d <- function() {
   d <- get("d", envir = parent.frame())
-  assert_that(is.number(d))
-  assert_that(is.finite(d))
-  assert_that(d >= 0)
-  assert_that(d < 1)
+  assert_that(
+    is.number(d),
+    is.finite(d),
+    d >= 0,
+    d < 1
+  )
 }
 
 .check_lambda <- function() {
   lambda <- get("lambda", envir = parent.frame())
-  assert_that(all(map_lgl(lambda, is.number)))
-  assert_that(all(is.finite(lambda)))
-  assert_that(all(between(lambda, 0, 1)))
+  assert_that(
+    all(map_lgl(lambda, is.number)),
+    all(is.finite(lambda)),
+    all(lambda >= 0),
+    all(lambda <= 1)
+  )
 }
 
 .check_output <- function() {
+  values <- c("p_values", "c_values", "decisions", "factors")
   output <- get("output", envir = parent.frame())
-  assert_that(is.string(output))
-  assert_that(is.element(output, set = c("p", "a")))
+  output <- ifelse(
+    are_equal(output, values),
+    output[1L],
+    output
+  )
+  assert_that(
+    is.string(output),
+    is.element(output, set = values)
+  )
 }
 
-.check_alpha <- function() {
-  alpha <- get("alpha", envir = parent.frame())
-  if (!is.null(alpha)) {
-    assert_that(is.number(alpha))
-    assert_that(is.finite(alpha))
-    assert_that(between(alpha, 0, 1))
-  }
+.check_c_value <- function() {
+  cv <- get("c_value", envir = parent.frame())
+  output <- get("output", envir = parent.frame())
+  ifelse(
+    is.null(cv),
+    assert_that(
+      is.element(output, set = c("p_values", "factors")),
+      msg = "A value for `c_value` is required."
+    ),
+    assert_that(
+      is.number(cv),
+      is.finite(cv)
+    )
+  )
 }
 
-.check_gamma <- function() {
-  gamma <- get("gamma", envir = parent.frame())
-  if (!is.null(gamma)) {
-    assert_that(is.number(gamma))
-    assert_that(is.finite(gamma))
-    m <- get("m", envir = parent.frame())
-    assert_that(between(gamma, 1, m))
-  }
+.check_weights <- function() {
+  weights <- get("weights", envir = parent.frame())
+  assert_that(
+    all(map_lgl(weights, is.number)),
+    all(is.finite(weights)),
+    all(weights >= 0),
+    all(weights <= 1),
+    sum(weights) == 1
+  )
 }

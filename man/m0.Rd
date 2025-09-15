@@ -3,20 +3,23 @@
 \name{m0}
 \alias{m0}
 \alias{pi0}
-\title{Estimate number or proportion of null hypotheses}
+\title{Estimate the number or proportion of null hypotheses}
 \usage{
-m0(p, lambda = 0.5)
+m0(p_values, lambda = 0.5)
 
-pi0(p, lambda = 0.5)
+pi0(p_values, lambda = 0.5)
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed p-values.}
+\item{p_values}{[ \code{numeric()} ]\cr
+A numeric vector of observed p-values.}
 
-\item{lambda}{\link{numeric} vector containing one or
-more value(s) for the tuning parameter.}
+\item{lambda}{[ \code{numeric()} ]\cr
+A numeric vector containing one or more values
+between 0 and 1 for the tuning parameter.}
 }
 \value{
-A \link{numeric} vector the same length as \code{lambda}.
+[ \code{numeric()} ] \cr \cr
+A numeric vector the same length as \code{lambda}.
 }
 \description{
 The functions provides Storey's estimator of

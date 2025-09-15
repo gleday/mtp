@@ -1,0 +1,338 @@
+---
+title: "Multiple testing with mtp"
+author: Gwenaël G.R. Leday
+output: rmarkdown::html_vignette
+bibliography: refs.bib
+biblio-style: "apalike"
+link-citations: true
+vignette: >
+  %\VignetteIndexEntry{Multiple testing with mtp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+## Multiple hypothesis testing
+
+In multiple hypothesis testing, $m > 1$
+null hypotheses $H_{1}, \ldots, H_{m}$ with
+corresponding p-values $p_{1}, \ldots, p_{m}$
+are tested simultaneously.
+
+## Why using multiple testing procedures?
+
+When conducting a single statistical test ($m = 1$),
+the probability of committing an error when
+rejecting the null hypothesis (a Type I error)
+is bounded by the significance level $\alpha$,
+which is conventionally set at 0.05.
+
+However, when multiple tests are performed,
+the risk of committing such errors increases with
+the number of tests, and with a large number of
+test these errors become almost inevitable.
+
+Multiple testing procedures address this issue
+by providing statistical control over the
+occurrence of Type I errors across all tests,
+using appropriate error criteria.
+
+They achieve this by adjusting the significance level of
+individual tests so that the overall occurrence of
+Type I errors remains bounded according to the chosen
+error criterion and pre-specified level.
+
+Different criteria offer different forms of control,
+and multiple adjustment methods are available for
+each criterion.
+
+In essence, multiple testing procedures:
+
+- provide statistical guarantees about the extent of
+Type I errors (false positives)
+
+- help strike a balance between limiting Type I errors
+and maintaining statistical power (the ability to
+correctly reject null hypotheses)
+
+## Error criteria
+
+> **Notation** <br>
+$\text{V}$: number of false rejections <br>
+$\text{R}$: number of rejected null hypotheses
+
+mtp allows to control Type I errors using:
+
+* the **family-wise error rate** (FWER),
+defined as the probability that the number of
+false rejections exceeds a predefined
+number $k$, with $0 \leq \text{k} < \text{m}$:
+$$\text{FWER(k)} = \text{Pr}(\text{V} > \text{k}).$$
+
+* the **false rejection exceedance** (FRX),
+defined as the probability that the proportion
+of false rejections among all rejected hypotheses
+exceeds a predefined proportion $d$, with $0 \leq \text{d} < 1$:
+$$\text{FRX(d)} = \text{Pr}(\text{V}/\text{R} > \text{d}).$$
+
+* the **per family error rate** (PFER),
+defined as the expected number of false rejections:
+$$\text{PFER} = \text{E}(\text{V}).$$
+
+* the **false rejection rate** (FRR),
+defined as the expected proportion
+of false rejections among all rejected hypotheses:
+$$\text{FRR} = \text{E}(\text{V}/\text{R}).$$
+
+> **Note** <br>
+> The term *discovery* often adopted in literature
+to name error criteria is here replaced by the more
+neutral term *rejection*. Indeed, not all rejections
+result in a "discovery" (e.g. equivalence tests).
+
+
+## Adjustment methods
+
+To control Type I errors according to the selected criterion,
+the significance level of each test must be adjusted appropriately.
+This adjustment involves either increasing the p-value
+or, equivalently, decreasing the critical value
+with an **adjustment factor**.
+
+Hence, adjustments methods provide either of the following
+(from which final rejection decisions can be made):
+
+* the **adjusted p-values**
+$\widetilde{p}_{1}, \ldots, \widetilde{p}_{m}$
+
+* the **adjusted critical values**
+$\widetilde{\alpha}_{1}, \ldots, \widetilde{\alpha}_{m}$
+
+For a given criterion different adjustment methods are available.
+These can be distinguished based on their type:
+
+* **single-step** methods (e.g. Bonferroni's) adjust each test
+regardless of the outcome of other tests.
+
+* **step-down** methods (e.g. Holm's) adjust each test
+sequentially, starting with the most significant
+(with smallest p-value).
+
+* **step-up** methods (e.g. Hochberg's) adjust each test
+sequentially, starting with the least significant
+(with largest p-value).
+
+> **Note:**
+> The code used for the step-down and
+step-up procedures in mtp is largely based
+on the code of `p.adjust()` from package stat.
+
+## Decision procedure
+
+After adjustment, the **decision procedure** consists in
+applying one of the following (equivalent) rules:
+
+* reject null hypotheses with <u>adjusted p-values</u> smaller than or
+equal to the <u>critical value</u> $\alpha$, i.e.:
+$$
+ \displaystyle{
+  \text{reject}\ \ H_{j} \qquad
+  \text{if} \qquad \widetilde{p}_{j} \leq \alpha,
+  \qquad\text{for}\ j=1, \ldots, m.
+ }
+$$
+
+* reject null hypotheses with <u>observed p-values</u> smaller than or
+equal to the <u>adjusted critical values</u>, i.e.:
+$$
+ \displaystyle{
+ \text{reject}\ \ H_{j} \qquad
+  \text{if} \qquad p_{j} \leq \widetilde{\alpha}_{j},
+  \qquad\text{for}\ j=1, \ldots, m.
+ }
+$$
+
+# The mtp package
+
+The following table lists the core functions of mtp.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| html-table-processing: none
+#| results: "asis"
+
+# function list for FWER
+funs_fwer <- data.frame(
+  Function = c(
+    "`fwer_bon()`",
+    "`fwer_holm()`",
+    "`fwer_hoch()`",
+    "`fwer_bon_a()`",
+    "`fwer_bon_w()`"
+  ),
+  Procedure = c(
+    "generalized Bonferroni",
+    "generalized Holm",
+    "generalized Hochberg",
+    "generalized adaptive Bonferroni",
+    "generalized weighted Bonferroni"
+  ),
+  Type = c(
+    "single-step",
+    "step-down",
+    "step-up",
+    "single-step",
+    "single-step"
+  ),
+  Error = c(
+    rep("FWER(k)", 5)
+  )
+)
+
+# function list for FRX
+funs_frx <- data.frame(
+  Function = c(
+    "`frx_holm()`",
+    "`frx_hoch()`"
+  ),
+  Procedure = c(
+    "Lehmann & Romano's modified Holm",
+    "Guo's modified Hochberg"
+  ),
+  Type = c(
+    "step-down",
+    "step-up"
+  ),
+  Error = c(
+    rep("FRX(d)", 2)
+  )
+)
+
+# function list for FRR
+funs_frr <- data.frame(
+  Function = c(
+    "`frr_bh()`",
+    "`frr_bh_a()`"
+  ),
+  Procedure = c(
+    "Benjamini-Hochberg",
+    "adaptive Benjamini-Hochberg"
+  ),
+  Type = c(
+    "step-up",
+    "step-up"
+  ),
+  Error = c(
+    rep("FRR", 2)
+  )
+)
+
+# combine function lists
+funs <- rbind(
+  funs_fwer,
+  funs_frx,
+  funs_frr
+)
+
+# make table
+knitr::kable(funs) |>
+  kableExtra::collapse_rows(
+    columns = 4,
+    valign = "middle"
+  ) |>
+  kableExtra::row_spec(
+    row = nrow(funs_fwer),
+    hline_after = TRUE
+  )
+```
+
+These functions allow to obtain either of the following:
+
+* the **adjusted p-values**
+when the function argument `output = "p_values"`.
+
+* the **adjusted critical values**
+when the function argument `output = "c_values"`.
+
+* the **rejection decisions**
+when the function argument `output = "decisions"`.
+
+* the **adjustment factors**
+when the function argument `output = "factors"`.
+
+Details on how adjusted p-values, critical values and
+adjustment factors are computed are provided
+in each function's documentation.
+
+# Alternative packages
+
+If mtp does not meet your needs,
+perhaps one of the following packages will:
+
+* [cherry](https://cran.r-project.org/package=cherry):
+Multiple Testing Methods for Exploratory Research
+* [DiscreteFDR](https://cran.r-project.org/package=DiscreteFDR):
+FDR Based Multiple Testing Procedures with Adaptation for Discrete Tests
+* [DiscreteFWER](https://cran.r-project.org/package=DiscreteFWER):
+FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
+* [elitism](https://cran.r-project.org/package=elitism):
+Equipment for Logarithmic and Linear Time Stepwise Multiple Hypothesis Testing
+* [FAMT](https://cran.r-project.org/package=FAMT):
+Factor Analysis for Multiple Testing
+* [fdrci](https://cran.r-project.org/package=fdrci):
+Permutation-Based FDR Point and Confidence Interval Estimation]
+* [fdrtool](https://cran.r-project.org/package=fdrtool):
+Estimation of (Local) False Discovery Rates and Higher Criticism
+* [flip](https://cran.r-project.org/package=flip):
+Multivariate Permutation Tests
+* [FixSeqMTP](https://cran.r-project.org/package=FixSeqMTP):
+Fixed Sequence Multiple Testing Procedures
+* [pwrFDR](https://cran.r-project.org/package=pwrFDR):
+FDR Power
+* [FDX](https://cran.r-project.org/package=FDX):
+False Discovery Exceedance Controlling Multiple Testing Procedures
+* [gMCP](https://cran.r-project.org/package=gMCP):
+Graph Based Multiple Comparison Procedures
+* [graphicalMCP](https://cran.r-project.org/package=graphicalMCP):
+Graphical Multiple Comparison Procedures
+* [hommel](https://cran.r-project.org/package=hommel):
+Methods for Closed Testing with Simes Inequality, in Particular Hommel's Method
+* [MHTdiscrete](https://cran.r-project.org/package=MHTdiscrete):
+Multiple Hypotheses Testing for Discrete Data
+* [MHTmult](https://cran.r-project.org/package=MHTmult):
+Multiple Hypotheses Testing for Multiple Families/Groups Structure
+* [multcomp](https://cran.r-project.org/package=multcomp):
+Simultaneous Inference in General Parametric Models
+* [multtest](https://bioconductor.org/packages/multtest/):
+Resampling-based multiple hypothesis testing
+* [multxpert](https://cran.r-project.org/package=multxpert):
+Common Multiple Testing Procedures and Gatekeeping Procedures
+* [mutoss](https://cran.r-project.org/package=mutoss):
+Unified Multiple Testing Procedures
+* [nparcomp](https://cran.r-project.org/package=nparcomp):
+Multiple Comparisons and Simultaneous Confidence Intervals
+* [qvalue](https://bioconductor.org/packages/qvalue/):
+Q-value estimation for false discovery rate control
+* [sgof](https://cran.r-project.org/package=sgof):
+Multiple Hypothesis Testing
+* [someMTP](https://cran.r-project.org/package=someMTP):
+Some Multiple Testing Procedures
+* [StepwiseTest](https://cran.r-project.org/package=StepwiseTest):
+Multiple Testing Method to Control Generalized Family-Wise Error Rate and False Discovery Proportion
+
+
+# References
+
+---
+nocite: '@*'
+---

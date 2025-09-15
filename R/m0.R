@@ -1,7 +1,8 @@
-#' Estimate number or proportion of null hypotheses
+#' Estimate the number or proportion of null hypotheses
 #'
-#' @param lambda [numeric] vector containing one or
-#' more value(s) for the tuning parameter.
+#' @param lambda \[ `numeric()` \]\cr
+#' A numeric vector containing one or more values
+#' between 0 and 1 for the tuning parameter.
 #'
 #' @inheritParams fwer_bon
 #'
@@ -26,11 +27,9 @@
 #' \hat{\pi}_0 = \frac{\hat{m}_0}{m}
 #' }}
 #'
-#' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
-#' @importFrom "dplyr" "between"
-#' @importFrom "purrr" "map_dfc" "map_lgl" "map_dbl"
-#'
-#' @return A [numeric] vector the same length as `lambda`.
+#' @return
+#' \[ `numeric()` \] \cr \cr
+#' A numeric vector the same length as `lambda`.
 #'
 #' @family adaptive
 #'
@@ -42,15 +41,15 @@
 #' Series B (Statistical Methodology), 64(3), 479-498.
 #'
 #' @export
-m0 <- function(p, lambda = 0.5) {
+m0 <- function(p_values, lambda = 0.5) {
 
   # check arguments
-  .check_p()
+  .check_p_values()
   .check_lambda()
 
   # get Storey's estimator
-  m <- length(p)
-  m0_hat <- (sum(p > lambda) + 1) / (1 - lambda)
+  m <- length(p_values)
+  m0_hat <- (sum(p_values > lambda) + 1) / (1 - lambda)
   m0_hat <- pmin(m0_hat, m)
 
   # output
@@ -58,5 +57,5 @@ m0 <- function(p, lambda = 0.5) {
     return(m0_hat)
   }
   names(lambda) <- lambda
-  map_dbl(lambda, m0, p = p)
+  map_dbl(lambda, m0, p_values = p_values)
 }

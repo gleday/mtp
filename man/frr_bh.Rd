@@ -4,35 +4,49 @@
 \alias{frr_bh}
 \title{FRR control using Benjamini-Hochberg (step-up)}
 \usage{
-frr_bh(p, alpha = NULL, output = "p")
+frr_bh(
+  p_values,
+  c_value = NULL,
+  output = c("p_values", "c_values", "decisions", "factors")
+)
 }
 \arguments{
-\item{p}{\link{numeric} vector. Observed p-values.}
+\item{p_values}{[ \code{numeric()} ]\cr
+A numeric vector of observed p-values.}
 
-\item{alpha}{\link{numeric} scalar. Target \eqn{\text{FRR}}
-level (between 0 and 1). Overrides \code{output} and
-return adjusted critical values.}
+\item{c_value}{[ \code{numeric(1)} ]\cr
+A number between 0 and 1 specifying the critical value for FRR.\cr
+Required if \code{output = "c_values"} or \code{output = "decisions"}.}
 
-\item{output}{\link{character} scalar. Return adjusted p-values
-(\code{"p"}) or adjustment factors (\code{"a"}).}
+\item{output}{[ \code{character(1)} ]\cr
+The type of value returned by the function:
+\itemize{
+\item \code{"p_values"} returns the adjusted p-values
+\item \code{"c_values"} returns the adjusted critical values
+\item \code{"decisions"} returns the rejection decisions
+(1 = rejected and 0 = non-rejected)
+\item \code{"factors"} returns adjustment factors
+}}
 }
 \value{
-A \link{numeric} vector of:
+[ \code{numeric()} ] \cr \cr
+A numeric vector the same length as \code{p_values} with:
 \itemize{
-\item adjusted p-values when \code{ouput = "p"},
-\item adjustment factors when \code{ouput = "a"},
-\item adjusted critical values when \code{alpha} is provided.
+\item the adjusted p-values if \code{output = "p_values"}
+\item the adjusted critical values if \code{output = "c_values"}
+\item the rejection decisions (1 = rejected and 0 = non-rejected)
+if \code{output = "decisions"}
+\item the adjustment factors if \code{output = "factors"}
 }
 }
 \description{
-Control \eqn{\text{FRR}} using Benjamini-Hochberg's
+Control FRR using Benjamini-Hochberg's
 step-up procedure
 }
 \details{
 The Benjamini-Hochberg (BH) procedure
 (Benjamini and Hochberg, 1995)
-consists in using the decision procedure
-described in \link{mtp-package} using:
+yields:
 \itemize{
 \item the adjustment factors:
 \eqn{\qquad\quad
@@ -43,26 +57,60 @@ described in \link{mtp-package} using:
 }
 \item the adjusted p-values:
 \eqn{\qquad\quad
-\displaystyle{
+ \displaystyle{
   \begin{cases}
-  \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
-  \widetilde{p}_{j} = \min\left( a_j p_{j},
-  \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
+  \widetilde{p}_{(m)} = \min\left( a_m p_{(m)}, 1\right),\\
+  \widetilde{p}_{(j)} = \min\left( a_j p_{(j)},
+  \widetilde{p}_{(j + 1)}\right), \ \text{for}\ j = m - 1, \ldots, 1
   \end{cases}
  }
- }
+}
 \item the adjusted critical values:
 \eqn{\qquad
-\displaystyle{
-  \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
+ \displaystyle{
+  \widetilde{\alpha}_{(j)} = \frac{\alpha}{a_j},
   \ \text{for}\ j=1, \ldots, m.
-} }
+ }
+}
 }
 
-The BH procedure guarantees
-that \eqn{\text{FRR} \leq \alpha} under some
-assumptions on the dependence of p-values
-(Simes inequality).
+Here, \eqn{p_{(1)} \leq \ldots \leq p_{(m)}}
+denote the ordered p-values with
+\eqn{\widetilde{p}_{(1)}, \ldots,
+\widetilde{p}_{(m)}} and
+\eqn{\widetilde{\alpha}_{(1)}, \ldots,
+\widetilde{\alpha}_{(m)}}
+their corresponding adjusted p-values and
+critical values.
+}
+\examples{
+# simulate p-values
+set.seed(123)
+sim <- simulate_p_values(m = 1000, m0 = 900, s1 = 0.1, s2 = 10)
+
+# 1. control FRR at 0.1 using adjusted p-values
+adj_pv <- frr_bh(sim$p_value)
+sum(adj_pv <= 0.01)
+
+# 2. control FRR at 0.1 using adjusted critical values
+adj_cv <- frr_bh(
+  sim$p_value,
+  c_value = 0.01,
+  output = "c_values"
+)
+sum(sim$p_value <= adj_cv)
+
+# 3. control FRR at 0.05 using decision indicator
+ind <- frr_bh(
+  sim$p_value,
+  c_value = 0.01,
+  output = "decisions"
+)
+sum(ind)
+
+# 4. adjustment factors to control FRX(d = 0.1) at 0.05
+adj_fct <- frr_bh(sim$p_value, output = "factors")
+
 }
 \references{
 Benjamini, Y., & Hochberg, Y. (1995). Controlling the
@@ -72,6 +120,6 @@ series B (Methodological), 57(1), 289-300.
 }
 \seealso{
 Other FRR: 
-\code{\link{frr_abh}()}
+\code{\link{frr_bh_a}()}
 }
 \concept{FRR}

@@ -1,16 +1,16 @@
 #' PFER control using adaptive Bonferroni (single-step)
 #'
 #' @inheritParams pfer_bon
-#' @inheritParams m0
+#' @inheritParams fwer_bon_a
 #'
 #' @description
-#' Control \eqn{\text{PFER}} using adaptive Bonferroni's
+#' Control PFER using adaptive Bonferroni's
 #' single-step procedure
 #'
 #' @details
-#' The adaptive Bonferroni procedure
-#' consists in using the decision procedure
-#' described in [mtp-package] with:
+#' The Bonferroni procedure
+#' (Meng et al, 2014; Theorem 2.1)
+#' yields:
 #'
 #' * the adjustment factor:
 #' \eqn{\qquad\quad
@@ -36,19 +36,7 @@
 #'  }
 #' }
 #'
-#' The adaptive Bonferroni procedure guarantees
-#' that \eqn{\text{PFER} \leq \gamma} under
-#' independence of p-values.
-#'
-#' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
-#' @importFrom "dplyr" "between"
-#' @importFrom "purrr" "map_lgl"
-#'
-#' @return
-#' A [numeric] vector of:
-#' * adjusted p-values when `output = "p"`,
-#' * adjustment factors when `output = "a"`,
-#' * adjusted critical values when `gamma` is provided.
+#' @inherit fwer_bon return
 #'
 #' @family PFER
 #'
@@ -61,26 +49,30 @@
 #' structured hypotheses. arXiv preprint arXiv:1812.00258.
 #'
 #' @export
-pfer_abon <- function(p, lambda = 0.5, gamma = NULL, output = "p") {
-
+pfer_bon_a <- function(
+    p_values,
+    lambda = 0.5,
+    c_value = NULL,
+    output = c("p_values", "c_values", "decisions", "factors")) {
   # check arguments
-  .check_p()
+  .check_p_values()
   .check_lambda()
-  .check_gamma()
-  .check_output()
+  output <- arg_match(
+    output,
+    c("p_values", "c_values", "decisions", "factors")
+  )
+  .check_c_value()
 
   # get adjustment factor
-  m <- length(p)
-  a <- m0(p = p, lambda = lambda)
+  m <- length(p_values)
+  a <- m0(p_values = p_values, lambda = lambda)
 
   # output
-  p_adj <- pmin(a * p, m)
-  if (!is.null(gamma)) {
-    return(rep(gamma / a, m))
-  } else {
-    if (output == "a") {
-      return(rep(a, m))
-    }
-  }
-  p_adj
+  adj_p_values <- pmin(a * p_values, m)
+  switch(output,
+    p_values = adj_p_values,
+    c_values = rep(c_value / a, m),
+    decisions = (adj_p_values <= c_value) * 1L,
+    factors = rep(a, m)
+  )
 }

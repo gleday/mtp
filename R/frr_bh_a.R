@@ -1,25 +1,27 @@
-#' FRX control using modified Hochberg (step-up)
+#' FRR control using adaptive Benjamini-Hochberg (step-up)
 #'
-#' @inheritParams frx_holm
+#' @inheritParams frr_bh
+#' @inheritParams fwer_bon_a
 #'
 #' @description
-#' Control FRX(d) using modification of
-#' Hochberg's step-up procedure (Sarkar, 2008;
-#' Guo et al., 2014)
+#' Control FRR using adaptive
+#' Benjamini-Hochberg's step-up procedure and
+#' Storey's plugin estimator
 #'
 #' @details
-#' The modified Hochberg procedure
-#' (Guo et al., 2014; Theorem 3.1)
+#' Storey's adaptive version of
+#' Benjamini-Hochberg (BH) procedure
 #' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
 #'  \displaystyle{
-#'   a_j = \frac{d - j + \left\lfloor d j \right\rfloor + 1}
-#'   {\left\lfloor d j \right\rfloor + 1},
+#'   a_j = \frac{\hat{m}_0}{j},
 #'   \ \text{for}\ j=1, \ldots, m.
-#'  }
-#' }
+#'  },
+#' }\cr
+#' where \eqn{\widehat{m}_0} is Storey's estimator of the
+#' number \eqn{m_0} of true null hypotheses (see [m0()]).
 #'
 #' * the adjusted p-values:
 #' \eqn{\qquad\quad
@@ -47,67 +49,60 @@
 #' \eqn{\widetilde{\alpha}_{(1)}, \ldots,
 #' \widetilde{\alpha}_{(m)}}
 #' their corresponding adjusted p-values and
-#' critical values. Also,
-#' \eqn{\left\lfloor x \right\rfloor} denotes
-#' the floor function returning the
-#' largest integer that is smaller or equal to \eqn{x}.
-#'
-#' The modified Hochberg procedure uses the same
-#' adjustment factors as the modified Holm procedure
-#' (see [frx_holm()]) but yields a different
-#' set of rejected hypotheses, as it is a step-up rather
-#' than a step-down procedure.
+#' critical values.
 #'
 #' @inherit fwer_bon return
 #'
-#' @family FRX
+#' @family FRR
 #'
 #' @references
-#' Sarkar, S. K. (2008). Generalizing Simes’ test and
-#' Hochberg’s stepup procedure.
-#' The Annals of Statistics, 36(1), 337-363.\cr
-#' Guo, W., He, L., & Sarkar, S. K. (2014). Further results on
-#' controlling the false discovery proportion.
+#' Storey, J. D. (2002). A direct approach to false
+#' discovery rates. Journal of the Royal Statistical
+#' Society Series B: Statistical Methodology, 64(3), 479-498.\cr
+#' Storey, J. D., Taylor, J. E., & Siegmund, D. (2004).
+#' Strong control, conservative point estimation and
+#' simultaneous conservative consistency of false
+#' discovery rates: a unified approach.
+#' Journal of the Royal Statistical Society Series B:
+#' Statistical Methodology, 66(1), 187-205.
 #'
 #' @examples
 #' # simulate p-values
 #' set.seed(123)
 #' sim <- simulate_p_values(m = 1000, m0 = 900, s1 = 0.1, s2 = 10)
 #'
-#' # 1. control FRX(d = 0.1) at 0.05 using adjusted p-values
-#' adj_pv <- frx_hoch(sim$p_value, d = 0.1)
-#' sum(adj_pv <= 0.05)
+#' # 1. control FRR at 0.1 using adjusted p-values
+#' adj_pv <- frr_bh_a(sim$p_value)
+#' sum(adj_pv <= 0.01)
 #'
-#' # 2. control FRX(d = 0.1) at 0.05 using adjusted critical values
-#' adj_cv <- frx_hoch(
+#' # 2. control FRR at 0.1 using adjusted critical values
+#' adj_cv <- frr_bh_a(
 #'   sim$p_value,
-#'   d = 0.1,
-#'   c_value = 0.05,
+#'   c_value = 0.01,
 #'   output = "c_values"
 #' )
 #' sum(sim$p_value <= adj_cv)
 #'
-#' # 3. control FRX(d = 0.1) at 0.05 using decision indicator
-#' ind <- frx_hoch(
+#' # 3. control FRR at 0.05 using decision indicator
+#' ind <- frr_bh_a(
 #'   sim$p_value,
-#'   d = 0.1,
-#'   c_value = 0.05,
+#'   c_value = 0.01,
 #'   output = "decisions"
 #' )
 #' sum(ind)
 #'
 #' # 4. adjustment factors to control FRX(d = 0.1) at 0.05
-#' adj_fct <- frx_hoch(sim$p_value, d = 0.1, output = "factors")
+#' adj_fct <- frr_bh_a(sim$p_value, output = "factors")
 #'
 #' @export
-frx_hoch <- function(
+frr_bh_a <- function(
     p_values,
-    d = 0,
+    lambda = 0.5,
     c_value = NULL,
     output = c("p_values", "c_values", "decisions", "factors")) {
   # check arguments
   .check_p_values()
-  .check_d()
+  .check_lambda()
   output <- arg_match(
     output,
     c("p_values", "c_values", "decisions", "factors")
@@ -117,13 +112,12 @@ frx_hoch <- function(
   # get adjustment factors
   m <- length(p_values)
   j <- m:1L
-  dj <- floor(d * j)
-  o <- order(p_values)[j]
+  o <- order(p_values, decreasing = TRUE)
   ro <- order(o)
-  a <- (m - j + dj + 1) / (dj + 1)
+  a <- m0(p_values = p_values, lambda = lambda) / j
 
   # output
-  adj_p_values <- pmin(1, cummin(a * p_values[o]))[ro]
+  adj_p_values <- pmin(cummin(a * p_values[o]), 1)[ro]
   switch(output,
     p_values = adj_p_values,
     c_values = (c_value * p_values) / adj_p_values,

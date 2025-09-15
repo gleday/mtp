@@ -1,19 +1,18 @@
 #' FRR control using Benjamini-Hochberg (step-up)
 #'
 #' @inheritParams fwer_bon
-#' @param alpha [numeric] scalar. Target \eqn{\text{FRR}}
-#' level (between 0 and 1). Overrides `output` and
-#' return adjusted critical values.
+#' @param c_value \[ `numeric(1)` \]\cr
+#' A number between 0 and 1 specifying the critical value for FRR.\cr
+#' Required if `output = "c_values"` or `output = "decisions"`.
 #'
 #' @description
-#' Control \eqn{\text{FRR}} using Benjamini-Hochberg's
+#' Control FRR using Benjamini-Hochberg's
 #' step-up procedure
 #'
 #' @details
 #' The Benjamini-Hochberg (BH) procedure
 #' (Benjamini and Hochberg, 1995)
-#' consists in using the decision procedure
-#' described in [mtp-package] using:
+#' yields:
 #'
 #' * the adjustment factors:
 #' \eqn{\qquad\quad
@@ -25,36 +24,33 @@
 #'
 #' * the adjusted p-values:
 #' \eqn{\qquad\quad
-#' \displaystyle{
+#'  \displaystyle{
 #'   \begin{cases}
-#'   \widetilde{p}_{1} = \min\left( a_j p_{j}, 1\right),\\
-#'   \widetilde{p}_{j} = \min\left( a_j p_{j},
-#'   \widetilde{p}_{j + 1}\right), \ \text{for}\ j = 1, \ldots, m-1
+#'   \widetilde{p}_{(m)} = \min\left( a_m p_{(m)}, 1\right),\\
+#'   \widetilde{p}_{(j)} = \min\left( a_j p_{(j)},
+#'   \widetilde{p}_{(j + 1)}\right), \ \text{for}\ j = m - 1, \ldots, 1
 #'   \end{cases}
 #'  }
-#'  }
+#' }
 #'
 #' * the adjusted critical values:
 #' \eqn{\qquad
-#' \displaystyle{
-#'   \widetilde{\alpha}_{j} = \frac{\alpha}{a_j},
+#'  \displaystyle{
+#'   \widetilde{\alpha}_{(j)} = \frac{\alpha}{a_j},
 #'   \ \text{for}\ j=1, \ldots, m.
-#' } }
+#'  }
+#' }
 #'
-#' The BH procedure guarantees
-#' that \eqn{\text{FRR} \leq \alpha} under some
-#' assumptions on the dependence of p-values
-#' (Simes inequality).
+#' Here, \eqn{p_{(1)} \leq \ldots \leq p_{(m)}}
+#' denote the ordered p-values with
+#' \eqn{\widetilde{p}_{(1)}, \ldots,
+#' \widetilde{p}_{(m)}} and
+#' \eqn{\widetilde{\alpha}_{(1)}, \ldots,
+#' \widetilde{\alpha}_{(m)}}
+#' their corresponding adjusted p-values and
+#' critical values.
 #'
-#' @importFrom "assertthat" "assert_that" "is.count" "is.number" "is.string"
-#' @importFrom "dplyr" "between"
-#' @importFrom "purrr" "map_lgl"
-#'
-#' @return
-#' A [numeric] vector of:
-#' * adjusted p-values when `ouput = "p"`,
-#' * adjustment factors when `ouput = "a"`,
-#' * adjusted critical values when `alpha` is provided.
+#' @inherit fwer_bon return
 #'
 #' @family FRR
 #'
@@ -64,29 +60,60 @@
 #' multiple testing. Journal of the Royal statistical society:
 #' series B (Methodological), 57(1), 289-300.
 #'
+#' @examples
+#' # simulate p-values
+#' set.seed(123)
+#' sim <- simulate_p_values(m = 1000, m0 = 900, s1 = 0.1, s2 = 10)
+#'
+#' # 1. control FRR at 0.1 using adjusted p-values
+#' adj_pv <- frr_bh(sim$p_value)
+#' sum(adj_pv <= 0.01)
+#'
+#' # 2. control FRR at 0.1 using adjusted critical values
+#' adj_cv <- frr_bh(
+#'   sim$p_value,
+#'   c_value = 0.01,
+#'   output = "c_values"
+#' )
+#' sum(sim$p_value <= adj_cv)
+#'
+#' # 3. control FRR at 0.05 using decision indicator
+#' ind <- frr_bh(
+#'   sim$p_value,
+#'   c_value = 0.01,
+#'   output = "decisions"
+#' )
+#' sum(ind)
+#'
+#' # 4. adjustment factors to control FRX(d = 0.1) at 0.05
+#' adj_fct <- frr_bh(sim$p_value, output = "factors")
+#'
 #' @export
-frr_bh <- function(p, alpha = NULL, output = "p") {
-
+frr_bh <- function(
+    p_values,
+    c_value = NULL,
+    output = c("p_values", "c_values", "decisions", "factors")) {
   # check arguments
-  .check_p()
-  .check_alpha()
-  .check_output()
+  .check_p_values()
+  output <- arg_match(
+    output,
+    c("p_values", "c_values", "decisions", "factors")
+  )
+  .check_c_value()
 
   # get adjustment factors
-  m <- length(p)
+  m <- length(p_values)
   j <- m:1L
-  o <- order(p, decreasing = TRUE)
+  o <- order(p_values, decreasing = TRUE)
   ro <- order(o)
   a <- m / j
 
   # output
-  p_adj <- pmin(cummin(a * p[o]), 1)[ro]
-  if (!is.null(alpha)) {
-    return((alpha * p) / p_adj)
-  } else {
-    if (output == "a") {
-      return(p_adj / p)
-    }
-  }
-  p_adj
+  adj_p_values <- pmin(cummin(a * p_values[o]), 1)[ro]
+  switch(output,
+    p_values = adj_p_values,
+    c_values = (c_value * p_values) / adj_p_values,
+    decisions = (adj_p_values <= c_value) * 1L,
+    factors = a[ro]
+  )
 }
