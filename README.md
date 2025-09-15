@@ -1,6 +1,6 @@
 <!-- header = image + name -->
 <h1 align="center">
-  <img src="C:/Users/User/Dropbox/Work/myPackages/mtp_sticker.png" alt="mtp" width="200">
+  <img src="man/figures/logo.png" alt="" width="150">
   <br><br>
   mtp
   <br>
